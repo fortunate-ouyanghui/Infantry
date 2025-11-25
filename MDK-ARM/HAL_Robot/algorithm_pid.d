@@ -1,0 +1,10 @@
+hal_robot\algorithm_pid.o: ..\Algorithm\algorithm_pid.cpp
+hal_robot\algorithm_pid.o: ../Algorithm/Inc/algorithm_pid.h
+hal_robot\algorithm_pid.o: ../Device/Inc/dev_system.h
+hal_robot\algorithm_pid.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
+hal_robot\algorithm_pid.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+hal_robot\algorithm_pid.o: E:\keil5\ARM\ARMCC\Bin\..\include\stddef.h
+hal_robot\algorithm_pid.o: E:\keil5\ARM\ARMCC\Bin\..\include\string.h
+hal_robot\algorithm_pid.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+hal_robot\algorithm_pid.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdbool.h
+hal_robot\algorithm_pid.o: ../App/Inc/app_preference.h

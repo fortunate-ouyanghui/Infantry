@@ -1,0 +1,9 @@
+hal_robot\dev_system.o: ..\Device\dev_system.cpp
+hal_robot\dev_system.o: ../Device/Inc/dev_system.h
+hal_robot\dev_system.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
+hal_robot\dev_system.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+hal_robot\dev_system.o: E:\keil5\ARM\ARMCC\Bin\..\include\stddef.h
+hal_robot\dev_system.o: E:\keil5\ARM\ARMCC\Bin\..\include\string.h
+hal_robot\dev_system.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+hal_robot\dev_system.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdbool.h
+hal_robot\dev_system.o: ../App/Inc/app_preference.h

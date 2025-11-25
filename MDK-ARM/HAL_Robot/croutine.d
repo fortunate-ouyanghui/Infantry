@@ -1,0 +1,14 @@
+hal_robot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/croutine.c
+hal_robot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+hal_robot\croutine.o: E:\keil5\ARM\ARMCC\Bin\..\include\stddef.h
+hal_robot\croutine.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+hal_robot\croutine.o: ../Core/Inc/FreeRTOSConfig.h
+hal_robot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+hal_robot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+hal_robot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+hal_robot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+hal_robot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+hal_robot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+hal_robot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+hal_robot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/croutine.h
+hal_robot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
