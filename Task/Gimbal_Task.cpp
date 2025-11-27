@@ -105,13 +105,22 @@ void Gimbal_Ctrl::Gimbal_Init(void)
 	PID.Init(&DM_Pitch.EnergyPositinPid, POSITION, PITCH_ENERGY_POSITION_PID_KP, PITCH_ENERGY_POSITION_PID_KI, PITCH_ENERGY_POSITION_PID_KD, PITCH_ENERGY_POSITION_PID_MAX_OUT, PITCH_ENERGY_POSITION_PID_MAX_IOUT, PITCH_ENERGY_POSITION_PID_BAND_I);
 	PID.Init(&DM_Pitch.EnergySpeedPid, POSITION, PITCH_ENERGY_SPEED_PID_KP, PITCH_ENERGY_SPEED_PID_KI, PITCH_ENERGY_SPEED_PID_KD, PITCH_ENERGY_SPEED_PID_MAX_OUT, PITCH_ENERGY_SPEED_PID_MAX_IOUT, PITCH_ENERGY_SPEED_PID_BAND_I);
 
+	// Ç°ÉÚÕ¾
+	PID.Init(&Yaw.OutpostPositinPid, POSITION, YAW_OUTPOST_POSITION_PID_KP, YAW_OUTPOST_POSITION_PID_KI, YAW_OUTPOST_POSITION_PID_KD, YAW_OUTPOST_POSITION_PID_MAX_OUT, YAW_OUTPOST_POSITION_PID_MAX_IOUT, YAW_OUTPOST_POSITION_PID_BAND_I);
+	PID.Init(&Yaw.OutpostSpeedPid, POSITION, YAW_OUTPOST_SPEED_PID_KP, YAW_OUTPOST_SPEED_PID_KI, YAW_OUTPOST_SPEED_PID_KD, YAW_OUTPOST_SPEED_PID_MAX_OUT, YAW_OUTPOST_SPEED_PID_MAX_IOUT, YAW_OUTPOST_SPEED_PID_BAND_I);
+	PID.Init(&DM_Pitch.OutpostPositinPid, POSITION, PITCH_OUTPOST_POSITION_PID_KP, PITCH_OUTPOST_POSITION_PID_KI, PITCH_OUTPOST_POSITION_PID_KD, PITCH_OUTPOST_POSITION_PID_MAX_OUT, PITCH_OUTPOST_POSITION_PID_MAX_IOUT, PITCH_OUTPOST_POSITION_PID_BAND_I);
+	PID.Init(&DM_Pitch.OutpostSpeedPid, POSITION, PITCH_OUTPOST_SPEED_PID_KP, PITCH_OUTPOST_SPEED_PID_KI, PITCH_OUTPOST_SPEED_PID_KD, PITCH_OUTPOST_SPEED_PID_MAX_OUT, PITCH_OUTPOST_SPEED_PID_MAX_IOUT, PITCH_OUTPOST_SPEED_PID_BAND_I);
+
+
 	// Ä¦²ÁÂÖ
 	PID.Init(&Fric1.SpeedPid, POSITION, FRIC1_SPEED_PID_KP, FRIC1_SPEED_PID_KI, FRIC1_SPEED_PID_KD, FRIC1_PID_MAX_OUT, FRIC1_PID_MAX_IOUT, FRIC1_PID_BAND_I);
 	PID.Init(&Fric2.SpeedPid, POSITION, FRIC2_SPEED_PID_KP, FRIC2_SPEED_PID_KI, FRIC2_SPEED_PID_KD, FRIC2_PID_MAX_OUT, FRIC2_PID_MAX_IOUT, FRIC2_PID_BAND_I);
 
 	// ²¦µ¯ÂÖ
 	PID.Init(&Trigger.PositinPid, POSITION, TRIGGER_ANGLE_PID_KP, TRIGGER_ANGLE_PID_KI, TRIGGER_ANGLE_PID_KD, TRIGGER_ANGLE_PID_MAX_OUT, TRIGGER_ANGLE_PID_MAX_IOUT, TRIGGER_ANGLE_PID_BAND_I);
-	PID.Init(&Trigger.SpeedPid, POSITION, TRIGGER_SPEED_PID_KP, TRIGGER_SPEED_PID_KI, TRIGGER_SPEED_PID_KD, TRIGGER_SPEED_PID_MAX_OUT, TRIGGER_SPEED_PID_MAX_IOUT, TRIGGER_SPEED_PID_BAND_I); /*  */
+	PID.Init(&Trigger.SpeedPid, POSITION, TRIGGER_SPEED_PID_KP, TRIGGER_SPEED_PID_KI, TRIGGER_SPEED_PID_KD, TRIGGER_SPEED_PID_MAX_OUT, TRIGGER_SPEED_PID_MAX_IOUT, TRIGGER_SPEED_PID_BAND_I); 
+	
+	
 
 	Data.pitch_offset_ecd = GIMBAL_PITCH_OFFSET_RAD;
 	Data.pitch_max_angle = GIMBAL_PITCH_MAX_ANGLE;
@@ -123,7 +132,7 @@ void Gimbal_Ctrl::Gimbal_Init(void)
 	Data.Fric_Gear[2] = FRIC_GEAR_SET_3;
 	Data.Shoot_Frequency_m[0] = TRIGGER_ONE_S_SHOOT_NUM1; // 6
 	Data.Shoot_Frequency_m[1] = TRIGGER_ONE_S_SHOOT_NUM2; // 8
-	Data.Shoot_Frequency_m[2] = 20.0f;					  // TRIGGER_ONE_S_SHOOT_NUM3;//12
+	Data.Shoot_Frequency_m[2] = 5.0f;					  // TRIGGER_ONE_S_SHOOT_NUM3;//12
 	Data.Loading_open = LOADING_OPEN_DUTY;
 	Data.Loading_close = LOADING_CLOSE_DUTY;
 	Data.Fric_Set[2] = 6300; //   6400/25m/s×óÓÒ
@@ -262,7 +271,7 @@ void Gimbal_Ctrl::Behaviour_Mode(void)
 		}
 		else if (switch_is_mid(RC_Ptr->rc.s[CHANNEL_LEFT]) && switch_is_mid(RC_Ptr->rc.s[CHANNEL_RIGHT]))
 		{
-			// ÖÐ ÖÐ ×ÔÃé
+			// ÖÐ ÖÐ ×ÔÃé or Ç°ÉÚÕ¾
 			Mode = GIMBAL_Normal;
 			Flags.Fric_Flag = true;
 			Flags.Shoot_Flag = false;
@@ -355,10 +364,23 @@ void Gimbal_Ctrl::Flag_Behaviour_Control()
 	Fric1.speed_set = -Data.FricSpeedSet;
 	Fric2.speed_set = Data.FricSpeedSet;
 
+//	if (Flags.Visual_Flag == true && Mode != GIMBAL_NO_MOVE && (Message.visual_receive_new_data.mode == 1 || Message.visual_receive_new_data.mode == 2))
+//	{
+//		Mode = GIMBAL_AIM;
+//		if (Message.visual_receive_new_data.mode == 2)
+//		{
+//			Flags.Shoot_Flag = true;
+//		}
+//		else
+//		{
+//			Flags.Shoot_Flag = false;
+//		}
+//	}
+	
 	if (Flags.Visual_Flag == true && Mode != GIMBAL_NO_MOVE && (Message.visual_receive_new_data.mode == 1 || Message.visual_receive_new_data.mode == 2))
 	{
-		Mode = GIMBAL_AIM;
-		if (Message.visual_receive_new_data.mode == 2)
+		Mode = GIMBAL_OUTPOST;
+		if (Message.visual_receive_new_data.mode == 1)
 		{
 			Flags.Shoot_Flag = true;
 		}
@@ -367,6 +389,7 @@ void Gimbal_Ctrl::Flag_Behaviour_Control()
 			Flags.Shoot_Flag = false;
 		}
 	}
+	
 
 	if (Flags.Shoot_Flag == true)
 	{
@@ -451,7 +474,7 @@ void Gimbal_Ctrl::Behaviour_Control(fp32 *yaw_set, fp32 *pitch_set)
 	{
 		RC_to_Control(yaw_set, pitch_set);
 	}
-	else if (Mode == GIMBAL_AIM || Mode == GIMBAL_ENERGY)
+	else if (Mode == GIMBAL_OUTPOST || Mode == GIMBAL_ENERGY)
 	{
 		filter_aim_yaw_target=0.1*Message.visual_receive_new_data.yaw.F+0.9*last_aim_target;
 		
@@ -489,11 +512,19 @@ void Gimbal_Ctrl::Control(void)
 		Yaw.angle_set += yaw_set;
 		DM_Pitch.angle_set += pitch_set;
 	}
-	else if (Mode == GIMBAL_AIM || Mode == GIMBAL_ENERGY)
+//	else if (Mode == GIMBAL_AIM || Mode == GIMBAL_ENERGY)
+//	{
+//		Yaw.angle_set = yaw_set;
+//		DM_Pitch.angle_set = pitch_set;
+//	}
+
+	
+	else if (Mode == GIMBAL_OUTPOST || Mode == GIMBAL_ENERGY)
 	{
 		Yaw.angle_set = yaw_set;
 		DM_Pitch.angle_set = pitch_set;
 	}
+	
 	else if (Mode == GIMBAL_NAV)
 	{
 	}
@@ -534,19 +565,35 @@ void Gimbal_Ctrl::Control_loop(void)
 		YAW_out = Yaw.SpeedPid.out;
 		PITCH_out = forwardfeed_pitch(DM_Pitch.SpeedPid.out) + G_compensation_out;
 	}
-	else if (Mode == GIMBAL_AIM)
+//	else if (Mode == GIMBAL_AIM)
+//	{
+//		PID.Calc(&Yaw.FollowPositinPid, 0, Yaw.angle_set);
+//		PID.Calc(&Yaw.FollowSpeedPid, Yaw.speed, Yaw.FollowPositinPid.out);
+
+//		PID.Calc(&DM_Pitch.Visual_PositinPid, DM_Pitch.angle, DM_Pitch.angle_set);
+//		PID.Calc(&DM_Pitch.Visual_SpeedPid, DM_Pitch.speed, DM_Pitch.Visual_PositinPid.out);
+
+//		
+//		
+//		YAW_out = Yaw.FollowSpeedPid.out+feedforward;
+//		PITCH_out = DM_Pitch.Visual_SpeedPid.out + G_compensation_out;
+//	}
+	
+	
+	else if (Mode == GIMBAL_OUTPOST)
 	{
-		PID.Calc(&Yaw.FollowPositinPid, 0, Yaw.angle_set);
-		PID.Calc(&Yaw.FollowSpeedPid, Yaw.speed, Yaw.FollowPositinPid.out);
+		PID.Calc(&Yaw.OutpostPositinPid, 0, Yaw.angle_set);
+		PID.Calc(&Yaw.OutpostSpeedPid, Yaw.speed, Yaw.OutpostPositinPid.out);
 
-		PID.Calc(&DM_Pitch.Visual_PositinPid, DM_Pitch.angle, DM_Pitch.angle_set);
-		PID.Calc(&DM_Pitch.Visual_SpeedPid, DM_Pitch.speed, DM_Pitch.Visual_PositinPid.out);
+		PID.Calc(&DM_Pitch.OutpostPositinPid, DM_Pitch.angle, DM_Pitch.angle_set);
+		PID.Calc(&DM_Pitch.OutpostSpeedPid, DM_Pitch.speed, DM_Pitch.OutpostPositinPid.out);
 
 		
 		
-		YAW_out = Yaw.FollowSpeedPid.out+feedforward;
-		PITCH_out = DM_Pitch.Visual_SpeedPid.out + G_compensation_out;
+		YAW_out = Yaw.OutpostSpeedPid.out;//+feedforward;
+		PITCH_out = DM_Pitch.OutpostSpeedPid.out + G_compensation_out;
 	}
+	
 	else if (Mode == GIMBAL_ENERGY)
 	{
 		PID.Calc(&Yaw.EnergyPositinPid, Yaw.angle, Yaw.angle_set);

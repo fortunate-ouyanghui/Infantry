@@ -225,7 +225,7 @@ void Message_Ctrl::CAN1_Process(CanRxMsg *Rx_Message)
 		#ifdef useHero
 		case CAN_DJI_Motor3_ID:
 		#endif
-		case 0x010: // ËÄÔªÊý
+		case 0x010: // Ë ÄÔªÊý
 		{
 			Corres.Quarternoin[0] = Rx_Data.Data[0];
 			Corres.Quarternoin[1] = Rx_Data.Data[1];

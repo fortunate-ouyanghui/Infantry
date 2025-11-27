@@ -3,85 +3,65 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: ¦ÌVision V5.43.1.0
-Copyright (C) 2025 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: oyh oyh, oyh, LIC=SDA0P-MZ5UT-WF3I7-E26GJ-E8BHE-17FH4
+IDE-Version: ¦ÌVision V5.40.0.0
+Copyright (C) 2024 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: hu hu, HP Inc., LIC=HN0AE-52809-NNEAF-66V32-5LI24-QFCSI
  
 Tool Versions:
-Toolchain:       MDK-ARM Plus  Version: 5.43.0.0
-Toolchain Path:  E:\keil5\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.06 update 7 (build 960)
-Assembler:       Armasm.exe V5.06 update 7 (build 960)
-Linker/Locator:  ArmLink.exe V5.06 update 7 (build 960)
-Library Manager: ArmAr.exe V5.06 update 7 (build 960)
-Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
-CPU DLL:         SARMCM3.DLL V5.43.0.0
+Toolchain:       MDK-ARM Plus  Version: 5.40.0.3
+Toolchain Path:  D:\RM\Microcontroller\STM32\keil5MDK\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 6 (build 750)
+Assembler:       Armasm.exe V5.06 update 6 (build 750)
+Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
+Library Manager: ArmAr.exe V5.06 update 6 (build 750)
+Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
+CPU DLL:         SARMCM3.DLL V5.40.0.3
 Dialog DLL:      DCM.DLL V1.17.5.0
-Target DLL:      CMSIS_AGDI.dll V1.33.24.0
-Dialog DLL:      TCM.DLL V1.56.6.0
+Target DLL:      CMSIS_AGDI.dll V1.33.18.0
+Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
-C:\Users\36225\Desktop\omnWheel\omnWheel\MDK-ARM\HAL_Robot.uvprojx
+D:\RM\ElectronicControl\code\infantry\omnWheel\omnWheel\MDK-ARM\HAL_Robot.uvprojx
 Project File Date:  11/25/2025
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'E:\keil5\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\RM\Microcontroller\STM32\keil5MDK\ARM\ARMCC\Bin'
 Build target 'HAL_Robot'
-compiling freertos.c...
-compiling Guard_Task.cpp...
-compiling app_preference.cpp...
-compiling app_serial.cpp...
-compiling Message_Task.cpp...
-compiling UIDraw_Task.cpp...
-compiling dev_system.cpp...
-compiling Correspond_Task.cpp...
 compiling Gimbal_Task.cpp...
-..\Task\Gimbal_Task.cpp(456): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\Task\Gimbal_Task.cpp(479): warning:  #1035-D: single-precision operand implicitly converted to double-precision
   		filter_aim_yaw_target=0.1*Message.visual_receive_new_data.yaw.F+0.9*last_aim_target;
-..\Task\Gimbal_Task.cpp(456): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\Task\Gimbal_Task.cpp(479): warning:  #1035-D: single-precision operand implicitly converted to double-precision
   		filter_aim_yaw_target=0.1*Message.visual_receive_new_data.yaw.F+0.9*last_aim_target;
-..\Task\Gimbal_Task.cpp(744): warning:  #1-D: last line of file ends without a newline
+..\Task\Gimbal_Task.cpp(791): warning:  #1-D: last line of file ends without a newline
   }
 ..\Task\Gimbal_Task.cpp: 3 warnings, 0 errors
-compiling Chassis_Task.cpp...
-compiling algorithm_pid.cpp...
-compiling algorithm_user_lib.cpp...
-compiling app_vofa.cpp...
-compiling protocol_judgement.cpp...
-compiling dev_serial.cpp...
-compiling app_motor.cpp...
-compiling dev_can.cpp...
-compiling chassis_power_control.cpp...
-compiling algorithm_LADRC.cpp...
-compiling protocol_ui.cpp...
 linking...
-Program Size: Code=79980 RO-data=4548 RW-data=792 ZI-data=53400  
+Program Size: Code=80228 RO-data=4548 RW-data=792 ZI-data=53720  
 FromELF: creating hex file...
 "HAL_Robot\HAL_Robot.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: ARM
-                https://www.keil.com/pack/ARM.CMSIS.6.2.0.pack
-                ARM::CMSIS@6.2.0
+                https://www.keil.com/pack/ARM.CMSIS.6.1.0.pack
+                ARM::CMSIS@6.1.0
                 CMSIS (Common Microcontroller Software Interface Standard)
-   * Component: CORE Version: 6.1.1
+   * Component: CORE Version: 6.1.0
 
 Package Vendor: Keil
-                https://www.keil.com/pack/Keil.STM32H7xx_DFP.3.1.1.pack
-                Keil::STM32H7xx_DFP@3.1.1
-                STMicroelectronics STM32H7 Series Device Support and Examples
+                https://www.keil.com/pack/Keil.STM32H7xx_DFP.4.1.3.pack
+                Keil::STM32H7xx_DFP@4.1.3
+                STMicroelectronics STM32H7 Series Device Support
 
 <h2>Collection of Component include folders:</h2>
   ./RTE/_HAL_Robot
-  E:/keil5/pack/ARM/CMSIS/6.2.0/CMSIS/Core/Include
-  E:/keil5/pack/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include
+  D:/RM/Microcontroller/STM32/keil5MDK/ARM/CMSIS/6.1.0/CMSIS/Core/Include
 
 <h2>Collection of Component Files used:</h2>
 
-   * Component: ARM::CMSIS:CORE@6.1.1
+   * Component: ARM::CMSIS:CORE@6.1.0
       Include file:  CMSIS/Core/Include/tz_context.h
-Build Time Elapsed:  00:00:18
+Build Time Elapsed:  00:00:09
 </pre>
 </body>
 </html>

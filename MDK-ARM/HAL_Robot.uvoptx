@@ -190,6 +190,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>DWT_dt_cor</ItemText>
         </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Gimbal</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>

@@ -1,6 +1,6 @@
 hal_robot\app_rgb.o: ..\App\app_rgb.cpp
 hal_robot\app_rgb.o: ../App/Inc/app_rgb.h
-hal_robot\app_rgb.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+hal_robot\app_rgb.o: D:\RM\Microcontroller\STM32\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
 hal_robot\app_rgb.o: ../Core/Inc/tim.h
 hal_robot\app_rgb.o: ../Core/Inc/main.h
 hal_robot\app_rgb.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h
@@ -17,8 +17,8 @@ hal_robot\app_rgb.o: ../Drivers/CMSIS/Include/mpu_armv7.h
 hal_robot\app_rgb.o: ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.h
 hal_robot\app_rgb.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h
 hal_robot\app_rgb.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-hal_robot\app_rgb.o: E:\keil5\ARM\ARMCC\Bin\..\include\stddef.h
-hal_robot\app_rgb.o: E:\keil5\ARM\ARMCC\Bin\..\include\math.h
+hal_robot\app_rgb.o: D:\RM\Microcontroller\STM32\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
+hal_robot\app_rgb.o: D:\RM\Microcontroller\STM32\keil5MDK\ARM\ARMCC\Bin\..\include\math.h
 hal_robot\app_rgb.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc_ex.h
 hal_robot\app_rgb.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h
 hal_robot\app_rgb.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio_ex.h
