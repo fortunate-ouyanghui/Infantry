@@ -115,7 +115,7 @@
 #define GIMBAL_PITCH_MIN_ANGLE -19.0f
 
 /***************************姿态数据:选择陀螺仪还是电机数据***********************/
-#define  MCU_Gyro  //Motor_Gyro   MCU_Gyro
+#define  MCU_Gyro  																				//Motor_Gyro   MCU_Gyro
 /***************************姿态数据选择陀螺仪还是电机数据***********************/
 
 //#define UIN16_MPU_RAD 10430
@@ -296,6 +296,7 @@
 
 
 /*********************************************手动PID*******************************************/
+#ifdef MCU_Gyro
 #define YAW_POSITION_PID_KP 				0.37//0.27
 #define YAW_POSITION_PID_KI 				0
 #define YAW_POSITION_PID_KD 				0.0f
@@ -328,6 +329,43 @@
 #define DM_PITCH_SPEED_PID_MAX_OUT 			7.0f
 #define DM_PITCH_SPEED_PID_MAX_IOUT 		0.3
 #define DM_PITCH_SPEED_PID_BAND_I 			1.0f
+#endif
+
+#ifdef Motor_Gyro
+#define YAW_MOTOR_POSITION_PID_KP 				0.0
+#define YAW_MOTOR_POSITION_PID_KI 				0
+#define YAW_MOTOR_POSITION_PID_KD 				0.0f
+#define YAW_MOTOR_POSITION_PID_MAX_OUT 			30000.0f
+#define YAW_MOTOR_POSITION_PID_MAX_IOUT 			20.0f
+#define YAW_MOTOR_POSITION_PID_BAND_I 			0.8f
+
+
+#define YAW_MOTOR_SPEED_PID_KP 					0
+#define YAW_MOTOR_SPEED_PID_KI 					0.0f//0
+#define YAW_MOTOR_SPEED_PID_KD 					0.0f
+#define YAW_MOTOR_SPEED_PID_MAX_OUT 				25000.0f
+#define YAW_MOTOR_SPEED_PID_MAX_IOUT 				800.0f
+#define YAW_MOTOR_SPEED_PID_BAND_I 				1.0f
+
+
+
+
+#define DM_PITCH_MOTOR_POSITION_PID_KP 			0
+#define DM_PITCH_MOTOR_POSITION_PID_KI 			0
+#define DM_PITCH_MOTOR_POSITION_PID_KD 			0.0f
+#define DM_PITCH_MOTOR_POSITION_PID_MAX_OUT 		7.0f
+#define DM_PITCH_MOTOR_POSITION_PID_MAX_IOUT 		3.0f
+#define DM_PITCH_MOTOR_POSITION_PID_BAND_I 		0.4f
+ 
+
+#define DM_PITCH_MOTOR_SPEED_PID_KP				0
+#define DM_PITCH_MOTOR_SPEED_PID_KI 				0
+#define DM_PITCH_MOTOR_SPEED_PID_KD 				0.0f
+#define DM_PITCH_MOTOR_SPEED_PID_MAX_OUT 			7.0f
+#define DM_PITCH_MOTOR_SPEED_PID_MAX_IOUT 		0.3
+#define DM_PITCH_MOTOR_SPEED_PID_BAND_I 			1.0f
+#endif
+
 /*********************************************手动PID*******************************************/
 
 
