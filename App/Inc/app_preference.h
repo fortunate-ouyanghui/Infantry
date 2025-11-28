@@ -369,6 +369,42 @@
 /*********************************************自瞄PID*******************************************/
 
 
+/*********************************************前哨站PID*******************************************/
+#define YAW_OUTPOST_POSITION_PID_KP			0.27//0.27//0.37//0.27
+#define YAW_OUTPOST_POSITION_PID_KI			0.0f
+#define YAW_OUTPOST_POSITION_PID_KD 		0.0f
+#define YAW_OUTPOST_POSITION_PID_MAX_OUT 	30000.0f
+#define YAW_OUTPOST_POSITION_PID_MAX_IOUT 	20.0f
+#define YAW_OUTPOST_POSITION_PID_BAND_I		0.8f
+
+
+#define YAW_OUTPOST_SPEED_PID_KP 			9150//22000//24000//22000
+#define YAW_OUTPOST_SPEED_PID_KI 			0.0f
+#define YAW_OUTPOST_SPEED_PID_KD 			0.0f
+#define YAW_OUTPOST_SPEED_PID_MAX_OUT 		25000.0f
+#define YAW_OUTPOST_SPEED_PID_MAX_IOUT 		800.0f
+#define YAW_OUTPOST_SPEED_PID_BAND_I 		1.0f
+
+
+
+
+#define PITCH_OUTPOST_POSITION_PID_KP 		0.35f
+#define PITCH_OUTPOST_POSITION_PID_KI 		0.0f
+#define PITCH_OUTPOST_POSITION_PID_KD 		0.0f
+#define PITCH_OUTPOST_POSITION_PID_MAX_OUT 	7.0f
+#define PITCH_OUTPOST_POSITION_PID_MAX_IOUT 3.0f
+#define PITCH_OUTPOST_POSITION_PID_BAND_I 	0.4f
+
+
+#define PITCH_OUTPOST_SPEED_PID_KP 			0.33
+#define PITCH_OUTPOST_SPEED_PID_KI 			0.003f
+#define PITCH_OUTPOST_SPEED_PID_KD 			0.0f
+#define PITCH_OUTPOST_SPEED_PID_MAX_OUT 	7.0f
+#define PITCH_OUTPOST_SPEED_PID_MAX_IOUT 	0.3f
+#define PITCH_OUTPOST_SPEED_PID_BAND_I  	1.0f
+/*********************************************前哨站PID*******************************************/
+
+
 
 
 /*********************************************能量机关PID*******************************************/

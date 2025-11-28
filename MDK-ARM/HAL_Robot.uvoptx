@@ -193,12 +193,16 @@
         <Ww>
           <count>7</count>
           <WinNumber>1</WinNumber>
+<<<<<<< HEAD
           <ItemText>mycrc,0x10</ItemText>
         </Ww>
         <Ww>
           <count>8</count>
           <WinNumber>1</WinNumber>
           <ItemText>\\HAL_Robot\../Task/Message_Task.cpp\Message.visual_receive_new_data.crc1</ItemText>
+=======
+          <ItemText>Gimbal</ItemText>
+>>>>>>> 092d8121d6fd21e6d51516af9734574bd7ac2d3f
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

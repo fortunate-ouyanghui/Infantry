@@ -101,10 +101,15 @@ typedef struct
 
 	sPidTypeDef SpeedPid;
 	sPidTypeDef PositinPid;
+	
 	sPidTypeDef FollowSpeedPid;
 	sPidTypeDef FollowPositinPid;
+	
 	sPidTypeDef EnergyPositinPid;
 	sPidTypeDef EnergySpeedPid;
+	
+	sPidTypeDef OutpostPositinPid;
+	sPidTypeDef OutpostSpeedPid;
 
 } Gimbal_Main_Motor_t; // 云台主要电机数据
 
@@ -153,6 +158,7 @@ typedef enum
 	GIMBAL_NO_MOVE = 0x00,
 	GIMBAL_Normal,
 	GIMBAL_AIM,
+	GIMBAL_OUTPOST,
 	GIMBAL_ENERGY,
 	GIMBAl_FRIC_CONTROL,
 	GIMBAL_NAV,
@@ -235,6 +241,11 @@ typedef struct
 	//能量机关PID
 	sPidTypeDef EnergySpeedPid;
 	sPidTypeDef EnergyPositinPid;
+	
+	//前哨站PID
+	sPidTypeDef OutpostSpeedPid;
+	sPidTypeDef OutpostPositinPid;
+	
 
 	float feedforward;
 

@@ -2,9 +2,9 @@ hal_robot\algorithm_user_lib.o: ..\Algorithm\algorithm_user_lib.cpp
 hal_robot\algorithm_user_lib.o: ../Algorithm/Inc/algorithm_user_lib.h
 hal_robot\algorithm_user_lib.o: ../Device/Inc/dev_system.h
 hal_robot\algorithm_user_lib.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
-hal_robot\algorithm_user_lib.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
-hal_robot\algorithm_user_lib.o: E:\keil5\ARM\ARMCC\Bin\..\include\stddef.h
-hal_robot\algorithm_user_lib.o: E:\keil5\ARM\ARMCC\Bin\..\include\string.h
-hal_robot\algorithm_user_lib.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdlib.h
-hal_robot\algorithm_user_lib.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdbool.h
+hal_robot\algorithm_user_lib.o: D:\RM\Microcontroller\STM32\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+hal_robot\algorithm_user_lib.o: D:\RM\Microcontroller\STM32\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
+hal_robot\algorithm_user_lib.o: D:\RM\Microcontroller\STM32\keil5MDK\ARM\ARMCC\Bin\..\include\string.h
+hal_robot\algorithm_user_lib.o: D:\RM\Microcontroller\STM32\keil5MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+hal_robot\algorithm_user_lib.o: D:\RM\Microcontroller\STM32\keil5MDK\ARM\ARMCC\Bin\..\include\stdbool.h
 hal_robot\algorithm_user_lib.o: ../App/Inc/app_preference.h

@@ -1,7 +1,7 @@
 hal_robot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/croutine.c
 hal_robot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-hal_robot\croutine.o: E:\keil5\ARM\ARMCC\Bin\..\include\stddef.h
-hal_robot\croutine.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+hal_robot\croutine.o: D:\RM\Microcontroller\STM32\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
+hal_robot\croutine.o: D:\RM\Microcontroller\STM32\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
 hal_robot\croutine.o: ../Core/Inc/FreeRTOSConfig.h
 hal_robot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 hal_robot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
