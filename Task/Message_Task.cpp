@@ -189,8 +189,6 @@ void Message_Ctrl::Serialx_Hook(uint8_t *Rx_Message, Serialctrl *Serialx_Ctrl)
 
 
 
-uint32_t DWT_Count;
-float DWT_dt;
 void Message_Ctrl::CAN1_Process(CanRxMsg *Rx_Message)
 {
 	CanRxMsg Rx_Data;
@@ -225,7 +223,7 @@ void Message_Ctrl::CAN1_Process(CanRxMsg *Rx_Message)
 		#ifdef useHero
 		case CAN_DJI_Motor3_ID:
 		#endif
-		case 0x010: // Ë ÄÔªÊý
+		case 0x010: // ËÄÔªÊý
 		{
 			Corres.Quarternoin[0] = Rx_Data.Data[0];
 			Corres.Quarternoin[1] = Rx_Data.Data[1];
@@ -261,7 +259,7 @@ void Message_Ctrl::CAN1_Process(CanRxMsg *Rx_Message)
 			Gyro.Pitch_angle = CAN_MPU_R_XY.AngleY;
 			Gyro.Pitch_speed = CAN_MPU_R_XY.Speed_Y;
 			
-		
+			Message_DWT_dt=DWT_GetDeltaT(&Message_DWT_Count);
 			break;
 		}
 
@@ -495,7 +493,7 @@ void Message_Ctrl::NAV_Serial_Hook(uint8_t *Rx_Message)
 //ÊÓ¾õ½ÓÊÕº¯Êý
 void Message_Ctrl::Visual_Serial_Hook(uint8_t *Rx_Message)
 {
-	  visual_receive_new_data.len          = Rx_Message[0];
+	visual_receive_new_data.len                   = Rx_Message[0];
     if(visual_receive_new_data.len==13)
     {
         if(Verify_CRC16_Check_Sum(Rx_Message+1,13))
@@ -520,18 +518,25 @@ void Message_Ctrl::Visual_Serial_Hook(uint8_t *Rx_Message)
 
             if(visual_receive_new_data.mode==0)
             {
-                Gimbal.Flags.Visual_Flag=false;
+                Gimbal.Flags.Recognized_target=false;
+				Gimbal.Flags.Fire=false;
             }
-            else if(visual_receive_new_data.mode==1 || visual_receive_new_data.mode==2)
+            else if(visual_receive_new_data.mode==1)
             {
-                Gimbal.Flags.Visual_Flag = true;
+                Gimbal.Flags.Recognized_target = true;
+				Gimbal.Flags.Fire=false;
             }
+			else if(visual_receive_new_data.mode==2)
+			{
+				Gimbal.Flags.Recognized_target = true;
+				Gimbal.Flags.Fire=true;
+			}
             else
             {
-                Gimbal.Flags.Visual_Flag = false;
+                Gimbal.Flags.Recognized_target = false;
+				Gimbal.Flags.Fire=false;
             }
         }
-					DWT_dt=DWT_GetDeltaT(&DWT_Count);
     }
 }
 

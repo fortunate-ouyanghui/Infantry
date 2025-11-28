@@ -139,7 +139,9 @@ struct trigger_motor_t
 typedef struct
 {
 	bool RC_Flag;
-	bool Visual_Flag;
+	bool Visual_Flag;//电控视觉标志
+	bool Recognized_target;//视觉标志
+	bool Fire;//开火标志
 	bool Energy_Flag;
 	bool Loading_Flag;
 	bool Fric_Flag;

@@ -16,24 +16,10 @@ bool Is_StartRollBack = false;	  // 是否开启退弹
 
 /***************************************热量算法***********************************************/
 // 冷却速率查询表
-static const float COOLING_RATE_TABLE[] =
-	{
-		// 冷却优先型 (等级1-10)
-		12.0f, 14.0f, 16.0f, 18.0f, 20.0f, 22.0f, 24.0f, 26.0f, 28.0f, 30.0f};
+static const float COOLING_RATE_TABLE[] = {
+	// 冷却优先型 (等级1-10)
+	12.0f, 14.0f, 16.0f, 18.0f, 20.0f, 22.0f, 24.0f, 26.0f, 28.0f, 30.0f};
 /***************************************热量算法***********************************************/
-
-uint16_t anglesteering;
-uint8_t speed_flag;
-extern bool fire_control;
-uint8_t aaaa;
-uint16_t flag;
-uint8_t up;
-uint8_t down;
-int8_t sign_ = -1;
-int8_t down_angle;
-extern float TOP_dir;
-
-float angle_;
 
 // 云台任务
 void Gimbal_Task(void *pvParameters)
@@ -72,14 +58,14 @@ void Gimbal_Task(void *pvParameters)
 }
 
 // 初始化
-float Q=0.1,R=1.5;
+float Q = 0.1, R = 1.5;
 void Gimbal_Ctrl::Gimbal_Init(void)
 {
 	RC_Ptr = get_remote_control_point();
 	Gimbal.Mode = GIMBAL_NO_MOVE;
-	VisualKalmanCreate(&yaw_kalman, Q, R);//Q系统误差 测量误差R 0.1  2
+	VisualKalmanCreate(&yaw_kalman, Q, R); // Q系统误差 测量误差R 0.1  2
 
-	Gimbal.Kmg = 0.49;	// 重力补偿系数
+	Gimbal.Kmg = 0.49; // 重力补偿系数
 
 	Yaw.gimbal_motor_measure = CAN_Cmd.Gimbal.Get_Motor_Measure_Pointer(0);
 	DM_Pitch.gimbal_motor_measure = CAN_Cmd.Gimbal_DM_Pitch.Get_DM_Motor_Measure_Pointer();
@@ -88,19 +74,19 @@ void Gimbal_Ctrl::Gimbal_Init(void)
 	Fric2.gimbal_motor_measure = CAN_Cmd.Fric.Get_Motor_Measure_Pointer(3);
 
 	// 手动
-	#ifdef MCU_Gyro
+#ifdef MCU_Gyro
 	PID.Init(&Yaw.PositinPid, POSITION, YAW_POSITION_PID_KP, YAW_POSITION_PID_KI, YAW_POSITION_PID_KD, YAW_POSITION_PID_MAX_OUT, YAW_POSITION_PID_MAX_IOUT, YAW_POSITION_PID_BAND_I);
 	PID.Init(&Yaw.SpeedPid, POSITION, YAW_SPEED_PID_KP, YAW_SPEED_PID_KI, YAW_SPEED_PID_KD, YAW_SPEED_PID_MAX_OUT, YAW_SPEED_PID_MAX_IOUT, YAW_SPEED_PID_BAND_I);
 	PID.Init(&DM_Pitch.PositinPid, POSITION, DM_PITCH_POSITION_PID_KP, DM_PITCH_POSITION_PID_KI, DM_PITCH_POSITION_PID_KD, DM_PITCH_POSITION_PID_MAX_OUT, DM_PITCH_POSITION_PID_MAX_IOUT, DM_PITCH_POSITION_PID_BAND_I);
 	PID.Init(&DM_Pitch.SpeedPid, POSITION, DM_PITCH_SPEED_PID_KP, DM_PITCH_SPEED_PID_KI, DM_PITCH_SPEED_PID_KD, DM_PITCH_SPEED_PID_MAX_OUT, DM_PITCH_SPEED_PID_MAX_IOUT, DM_PITCH_SPEED_PID_BAND_I);
-	#endif
-	#ifdef Motor_Gyro
+#endif
+#ifdef Motor_Gyro
 	PID.Init(&Yaw.PositinPid, POSITION, YAW_MOTOR_POSITION_PID_KP, YAW_MOTOR_POSITION_PID_KI, YAW_MOTOR_POSITION_PID_KD, YAW_MOTOR_POSITION_PID_MAX_OUT, YAW_MOTOR_POSITION_PID_MAX_IOUT, YAW_MOTOR_POSITION_PID_BAND_I);
 	PID.Init(&Yaw.SpeedPid, POSITION, YAW_MOTOR_SPEED_PID_KP, YAW_MOTOR_SPEED_PID_KI, YAW_MOTOR_SPEED_PID_KD, YAW_MOTOR_SPEED_PID_MAX_OUT, YAW_MOTOR_SPEED_PID_MAX_IOUT, YAW_MOTOR_SPEED_PID_BAND_I);
 	PID.Init(&DM_Pitch.PositinPid, POSITION, DM_PITCH_MOTOR_POSITION_PID_KP, DM_PITCH_MOTOR_POSITION_PID_KI, DM_PITCH_MOTOR_POSITION_PID_KD, DM_PITCH_MOTOR_POSITION_PID_MAX_OUT, DM_PITCH_MOTOR_POSITION_PID_MAX_IOUT, DM_PITCH_MOTOR_POSITION_PID_BAND_I);
 	PID.Init(&DM_Pitch.SpeedPid, POSITION, DM_PITCH_MOTOR_SPEED_PID_KP, DM_PITCH_MOTOR_SPEED_PID_KI, DM_PITCH_MOTOR_SPEED_PID_KD, DM_PITCH_MOTOR_SPEED_PID_MAX_OUT, DM_PITCH_MOTOR_SPEED_PID_MAX_IOUT, DM_PITCH_MOTOR_SPEED_PID_BAND_I);
-	#endif
-	
+#endif
+
 	// 视觉
 	PID.Init(&Yaw.FollowPositinPid, POSITION, YAW_FOLLOW_POSITION_PID_KP, YAW_FOLLOW_POSITION_PID_KI, YAW_FOLLOW_POSITION_PID_KD, YAW_FOLLOW_POSITION_PID_MAX_OUT, YAW_FOLLOW_POSITION_PID_MAX_IOUT, YAW_FOLLOW_POSITION_PID_BAND_I);
 	PID.Init(&Yaw.FollowSpeedPid, POSITION, YAW_FOLLOW_SPEED_PID_KP, YAW_FOLLOW_SPEED_PID_KI, YAW_FOLLOW_SPEED_PID_KD, YAW_FOLLOW_SPEED_PID_MAX_OUT, YAW_FOLLOW_SPEED_PID_MAX_IOUT, YAW_FOLLOW_SPEED_PID_BAND_I);
@@ -119,16 +105,13 @@ void Gimbal_Ctrl::Gimbal_Init(void)
 	PID.Init(&DM_Pitch.OutpostPositinPid, POSITION, PITCH_OUTPOST_POSITION_PID_KP, PITCH_OUTPOST_POSITION_PID_KI, PITCH_OUTPOST_POSITION_PID_KD, PITCH_OUTPOST_POSITION_PID_MAX_OUT, PITCH_OUTPOST_POSITION_PID_MAX_IOUT, PITCH_OUTPOST_POSITION_PID_BAND_I);
 	PID.Init(&DM_Pitch.OutpostSpeedPid, POSITION, PITCH_OUTPOST_SPEED_PID_KP, PITCH_OUTPOST_SPEED_PID_KI, PITCH_OUTPOST_SPEED_PID_KD, PITCH_OUTPOST_SPEED_PID_MAX_OUT, PITCH_OUTPOST_SPEED_PID_MAX_IOUT, PITCH_OUTPOST_SPEED_PID_BAND_I);
 
-
 	// 摩擦轮
 	PID.Init(&Fric1.SpeedPid, POSITION, FRIC1_SPEED_PID_KP, FRIC1_SPEED_PID_KI, FRIC1_SPEED_PID_KD, FRIC1_PID_MAX_OUT, FRIC1_PID_MAX_IOUT, FRIC1_PID_BAND_I);
 	PID.Init(&Fric2.SpeedPid, POSITION, FRIC2_SPEED_PID_KP, FRIC2_SPEED_PID_KI, FRIC2_SPEED_PID_KD, FRIC2_PID_MAX_OUT, FRIC2_PID_MAX_IOUT, FRIC2_PID_BAND_I);
 
 	// 拨弹轮
 	PID.Init(&Trigger.PositinPid, POSITION, TRIGGER_ANGLE_PID_KP, TRIGGER_ANGLE_PID_KI, TRIGGER_ANGLE_PID_KD, TRIGGER_ANGLE_PID_MAX_OUT, TRIGGER_ANGLE_PID_MAX_IOUT, TRIGGER_ANGLE_PID_BAND_I);
-	PID.Init(&Trigger.SpeedPid, POSITION, TRIGGER_SPEED_PID_KP, TRIGGER_SPEED_PID_KI, TRIGGER_SPEED_PID_KD, TRIGGER_SPEED_PID_MAX_OUT, TRIGGER_SPEED_PID_MAX_IOUT, TRIGGER_SPEED_PID_BAND_I); 
-	
-	
+	PID.Init(&Trigger.SpeedPid, POSITION, TRIGGER_SPEED_PID_KP, TRIGGER_SPEED_PID_KI, TRIGGER_SPEED_PID_KD, TRIGGER_SPEED_PID_MAX_OUT, TRIGGER_SPEED_PID_MAX_IOUT, TRIGGER_SPEED_PID_BAND_I);
 
 	Data.pitch_offset_ecd = GIMBAL_PITCH_OFFSET_RAD;
 	Data.pitch_max_angle = GIMBAL_PITCH_MAX_ANGLE;
@@ -148,8 +131,6 @@ void Gimbal_Ctrl::Gimbal_Init(void)
 	Feedback_Update();
 }
 
-
-
 // 数据更新
 void Gimbal_Ctrl::Feedback_Update(void)
 {
@@ -166,27 +147,28 @@ void Gimbal_Ctrl::Feedback_Update(void)
 
 	G_compensation_out = Kmg * cos(Gimbal.DM_Pitch.angle * PI / 180.f); // 弧度 重力补偿
 
-	
-  #ifdef Motor_Gyro //电机内部数据
-	motor_yaw_data.yaw_new_angle=motor_relative_ECD_to_angle(Yaw.gimbal_motor_measure->ecd,0);
-	if( (motor_yaw_data.yaw_new_angle-motor_yaw_data.yaw_last_real_angle) >180  ) motor_yaw_data.yaw_circle--;
-	if( (motor_yaw_data.yaw_new_angle-motor_yaw_data.yaw_last_real_angle) <-180 )	motor_yaw_data.yaw_circle++;
-	motor_yaw_data.yaw_last_real_angle=motor_yaw_data.yaw_new_angle;
-	motor_yaw_data.yaw_angle=motor_yaw_data.yaw_new_angle+360*motor_yaw_data.yaw_circle;
-	
+#ifdef Motor_Gyro // 电机内部数据
+	motor_yaw_data.yaw_new_angle = motor_relative_ECD_to_angle(Yaw.gimbal_motor_measure->ecd, 0);
+	if ((motor_yaw_data.yaw_new_angle - motor_yaw_data.yaw_last_real_angle) > 180)
+		motor_yaw_data.yaw_circle--;
+	if ((motor_yaw_data.yaw_new_angle - motor_yaw_data.yaw_last_real_angle) < -180)
+		motor_yaw_data.yaw_circle++;
+	motor_yaw_data.yaw_last_real_angle = motor_yaw_data.yaw_new_angle;
+	motor_yaw_data.yaw_angle = motor_yaw_data.yaw_new_angle + 360 * motor_yaw_data.yaw_circle;
+
 	Yaw.angle = motor_yaw_data.yaw_angle;
 	Yaw.speed = Yaw.gimbal_motor_measure->speed_rpm;
-	
-	DM_Pitch.angle = DM_Pitch.gimbal_motor_measure->POS.fdata*180/PI;
+
+	DM_Pitch.angle = DM_Pitch.gimbal_motor_measure->POS.fdata * 180 / PI;
 	DM_Pitch.speed = DM_Pitch.gimbal_motor_measure->VEl.fdata;
-	#endif
-	#ifdef MCU_Gyro //陀螺仪数据
+#endif
+#ifdef MCU_Gyro							// 陀螺仪数据
 	Yaw.speed = Message.Gyro.Yaw_speed; // 速度
-	Yaw.angle = Message.Gyro.Yaw_angle;	// 度
+	Yaw.angle = Message.Gyro.Yaw_angle; // 度
 
 	DM_Pitch.angle = -Message.Gyro.Pitch_angle;
 	DM_Pitch.speed = -Message.Gyro.Pitch_speed;
-  #endif
+#endif
 
 	Trigger.speed = Trigger.gimbal_motor_measure->speed_rpm;
 	Fric1.speed = Fric1.gimbal_motor_measure->speed_rpm;
@@ -206,9 +188,7 @@ void Gimbal_Ctrl::Feedback_Update(void)
 
 	Flags.AutoShoot_Flag = AUTOSHOOT;
 
-	// 枪管热量控制 总热量-消耗的热量
-	// 步兵每发弹丸10热量  一级每秒减12热量
-	// Data.Shoot_Frequency弹频，每秒发射多少发弹丸
+	// 热量管理
 	Data.Shoot_Frequency = HeatManageMent_Adaptive();
 
 	Statistic_Update(xTaskGetTickCount());
@@ -258,16 +238,12 @@ void Gimbal_Ctrl::Behaviour_Mode(void)
 	// 拨杆控制
 	if (Flags.RC_Flag == true)
 	{
-		if (switch_is_down(RC_Ptr->rc.s[CHANNEL_RIGHT]))
-		{
-			Mode = GIMBAL_NO_MOVE;
-		}
-#if RC_CONTRAL_MODE == 0
 		if (switch_is_down(RC_Ptr->rc.s[CHANNEL_LEFT]) && switch_is_down(RC_Ptr->rc.s[CHANNEL_RIGHT]))
 		{
 			// 下 下
 			Mode = GIMBAL_NO_MOVE;
 		}
+		#if RC_CONTRAL_MODE == 0
 		else if (switch_is_down(RC_Ptr->rc.s[CHANNEL_LEFT]) && switch_is_mid(RC_Ptr->rc.s[CHANNEL_RIGHT]))
 		{
 			// 下 中
@@ -316,9 +292,9 @@ void Gimbal_Ctrl::Behaviour_Mode(void)
 			Flags.Shoot_Flag = false;
 			Flags.Visual_Flag = false;
 		}
-#elif RC_CONTRAL_MODE == 1
+		#elif RC_CONTRAL_MODE == 1
 		// 面向检录
-		if (switch_is_mid(RC_Ptr->rc.s[CHANNEL_RIGHT]) && switch_is_down(RC_Ptr->rc.s[CHANNEL_LEFT]))
+		else if (switch_is_mid(RC_Ptr->rc.s[CHANNEL_RIGHT]) && switch_is_down(RC_Ptr->rc.s[CHANNEL_LEFT]))
 		{
 			Flags.Visual_Flag = false;
 			Flags.Fric_Flag = false;
@@ -379,23 +355,23 @@ void Gimbal_Ctrl::Flag_Behaviour_Control()
 	Fric1.speed_set = -Data.FricSpeedSet;
 	Fric2.speed_set = Data.FricSpeedSet;
 
-//	if (Flags.Visual_Flag == true && Mode != GIMBAL_NO_MOVE && (Message.visual_receive_new_data.mode == 1 || Message.visual_receive_new_data.mode == 2))
-//	{
-//		Mode = GIMBAL_AIM;
-//		if (Message.visual_receive_new_data.mode == 2)
-//		{
-//			Flags.Shoot_Flag = true;
-//		}
-//		else
-//		{
-//			Flags.Shoot_Flag = false;
-//		}
-//	}
-	
-	if (Flags.Visual_Flag == true && Mode != GIMBAL_NO_MOVE && (Message.visual_receive_new_data.mode == 1 || Message.visual_receive_new_data.mode == 2))
+	//	if (Flags.Visual_Flag == true && Mode != GIMBAL_NO_MOVE && (Message.visual_receive_new_data.mode == 1 || Message.visual_receive_new_data.mode == 2))
+	//	{
+	//		Mode = GIMBAL_AIM;
+	//		if (Message.visual_receive_new_data.mode == 2)
+	//		{
+	//			Flags.Shoot_Flag = true;
+	//		}
+	//		else
+	//		{
+	//			Flags.Shoot_Flag = false;
+	//		}
+	//	}
+
+	if (Flags.Visual_Flag == true && Flags.Recognized_target == true && Mode != GIMBAL_NO_MOVE)
 	{
-		Mode = GIMBAL_OUTPOST;
-		if (Message.visual_receive_new_data.mode == 1)
+		Mode = GIMBAL_AIM;
+		if (Flags.Fire==true)
 		{
 			Flags.Shoot_Flag = true;
 		}
@@ -404,8 +380,8 @@ void Gimbal_Ctrl::Flag_Behaviour_Control()
 			Flags.Shoot_Flag = false;
 		}
 	}
-	
 
+	
 	if (Flags.Shoot_Flag == true)
 	{
 		if (Flags.AutoShoot_Flag == true) // 连发
@@ -475,7 +451,7 @@ void Gimbal_Ctrl::RC_to_Control(fp32 *yaw_set, fp32 *pitch_set)
 
 // 云台控制设定
 float yaw_kalman_data;
-float last_aim_target;;
+float last_aim_target;
 float filter_aim_yaw_target;
 float feedforward;
 void Gimbal_Ctrl::Behaviour_Control(fp32 *yaw_set, fp32 *pitch_set)
@@ -489,17 +465,16 @@ void Gimbal_Ctrl::Behaviour_Control(fp32 *yaw_set, fp32 *pitch_set)
 	{
 		RC_to_Control(yaw_set, pitch_set);
 	}
-	else if (Mode == GIMBAL_OUTPOST || Mode == GIMBAL_ENERGY)
+	else if (Mode == GIMBAL_OUTPOST || Mode == GIMBAL_ENERGY || Mode == GIMBAL_AIM)
 	{
-		filter_aim_yaw_target=0.1*Message.visual_receive_new_data.yaw.F+0.9*last_aim_target;
-		
-		//yaw_kalman_data  = VisualKalmanFilter(&yaw_kalman, Message.visual_receive_new_data.yaw.F);
+		filter_aim_yaw_target = 0.1 * Message.visual_receive_new_data.yaw.F + 0.9 * last_aim_target;
+
+		// yaw_kalman_data  = VisualKalmanFilter(&yaw_kalman, Message.visual_receive_new_data.yaw.F);
 		*yaw_set = Visual_Handle(Message.Gyro.Yaw_real_angle, filter_aim_yaw_target);
 		*pitch_set = Message.visual_receive_new_data.pitch.F;
-		
-		feedforward=25*(filter_aim_yaw_target-last_aim_target);
-		last_aim_target=filter_aim_yaw_target;
-		
+
+		feedforward = 25 * (filter_aim_yaw_target - last_aim_target);
+		last_aim_target = filter_aim_yaw_target;
 	}
 	else if (Mode == GIMBAL_NAV)
 	{
@@ -527,41 +502,23 @@ void Gimbal_Ctrl::Control(void)
 		Yaw.angle_set += yaw_set;
 		DM_Pitch.angle_set += pitch_set;
 	}
-//	else if (Mode == GIMBAL_AIM || Mode == GIMBAL_ENERGY)
-//	{
-//		Yaw.angle_set = yaw_set;
-//		DM_Pitch.angle_set = pitch_set;
-//	}
-
-	
-	else if (Mode == GIMBAL_OUTPOST || Mode == GIMBAL_ENERGY)
+	else if (Mode == GIMBAL_OUTPOST || Mode == GIMBAL_ENERGY || Mode == GIMBAL_AIM)
 	{
 		Yaw.angle_set = yaw_set;
 		DM_Pitch.angle_set = pitch_set;
 	}
-	
+
 	else if (Mode == GIMBAL_NAV)
 	{
 	}
 
 	// 退弹算法
 	// rollback(true,1/8);
-	//	if(Trigger.gimbal_motor_measure->given_current > TRIGGER_BLOCKED_CURRENT && TRIGGER_MOTOR_REVERSE == -1)
-	//	{ // 拨弹轮防堵转
-	//		Trigger.angle_set = Trigger.angle_set - TRIGGER_MOTOR_REVERSE * TRIGGER_BLOCKED_ANGLE;
-	//		Trigger.speed_set = -TRIGGER_MOTOR_REVERSE * TRIGGER_BLOCKED_SPEED;
-	//	}
-	//	else if(Trigger.gimbal_motor_measure->given_current < -TRIGGER_BLOCKED_CURRENT && TRIGGER_MOTOR_REVERSE == 1)
-	//	{ // 拨弹轮防堵转
-	//		Trigger.angle_set = Trigger.angle_set - TRIGGER_MOTOR_REVERSE * TRIGGER_BLOCKED_ANGLE;
-	//		Trigger.speed_set = TRIGGER_MOTOR_REVERSE * TRIGGER_BLOCKED_SPEED;
-	//	}
 
 	DM_Pitch.angle_set = constrain(DM_Pitch.angle_set, Data.pitch_min_angle, Data.pitch_max_angle);
 }
 
 // 云台控制PID运算
-
 
 void Gimbal_Ctrl::Control_loop(void)
 {
@@ -580,21 +537,17 @@ void Gimbal_Ctrl::Control_loop(void)
 		YAW_out = Yaw.SpeedPid.out;
 		PITCH_out = forwardfeed_pitch(DM_Pitch.SpeedPid.out) + G_compensation_out;
 	}
-//	else if (Mode == GIMBAL_AIM)
-//	{
-//		PID.Calc(&Yaw.FollowPositinPid, 0, Yaw.angle_set);
-//		PID.Calc(&Yaw.FollowSpeedPid, Yaw.speed, Yaw.FollowPositinPid.out);
+	else if (Mode == GIMBAL_AIM)
+	{
+		PID.Calc(&Yaw.FollowPositinPid, 0, Yaw.angle_set);
+		PID.Calc(&Yaw.FollowSpeedPid, Yaw.speed, Yaw.FollowPositinPid.out);
 
-//		PID.Calc(&DM_Pitch.Visual_PositinPid, DM_Pitch.angle, DM_Pitch.angle_set);
-//		PID.Calc(&DM_Pitch.Visual_SpeedPid, DM_Pitch.speed, DM_Pitch.Visual_PositinPid.out);
+		PID.Calc(&DM_Pitch.Visual_PositinPid, DM_Pitch.angle, DM_Pitch.angle_set);
+		PID.Calc(&DM_Pitch.Visual_SpeedPid, DM_Pitch.speed, DM_Pitch.Visual_PositinPid.out);
 
-//		
-//		
-//		YAW_out = Yaw.FollowSpeedPid.out+feedforward;
-//		PITCH_out = DM_Pitch.Visual_SpeedPid.out + G_compensation_out;
-//	}
-	
-	
+		YAW_out = Yaw.FollowSpeedPid.out + feedforward;
+		PITCH_out = DM_Pitch.Visual_SpeedPid.out + G_compensation_out;
+	}
 	else if (Mode == GIMBAL_OUTPOST)
 	{
 		PID.Calc(&Yaw.OutpostPositinPid, 0, Yaw.angle_set);
@@ -603,12 +556,10 @@ void Gimbal_Ctrl::Control_loop(void)
 		PID.Calc(&DM_Pitch.OutpostPositinPid, DM_Pitch.angle, DM_Pitch.angle_set);
 		PID.Calc(&DM_Pitch.OutpostSpeedPid, DM_Pitch.speed, DM_Pitch.OutpostPositinPid.out);
 
-		
-		
-		YAW_out = Yaw.OutpostSpeedPid.out;//+feedforward;
+		YAW_out = Yaw.OutpostSpeedPid.out;
 		PITCH_out = DM_Pitch.OutpostSpeedPid.out + G_compensation_out;
 	}
-	
+
 	else if (Mode == GIMBAL_ENERGY)
 	{
 		PID.Calc(&Yaw.EnergyPositinPid, Yaw.angle, Yaw.angle_set);
@@ -618,7 +569,7 @@ void Gimbal_Ctrl::Control_loop(void)
 		PID.Calc(&DM_Pitch.EnergySpeedPid, DM_Pitch.speed, DM_Pitch.EnergyPositinPid.out);
 
 		YAW_out = Yaw.EnergySpeedPid.out;
-		PITCH_out = DM_Pitch.EnergySpeedPid.out + G_compensation_out; // why
+		PITCH_out = DM_Pitch.EnergySpeedPid.out + G_compensation_out;
 	}
 	else if (Mode == GIMBAL_NAV)
 	{
@@ -766,9 +717,8 @@ fp32 Gimbal_Ctrl::HeatManageMent_Adaptive()
 	float remaining_heat = heat_limit - current_heat;
 	float heat_ratio = remaining_heat / heat_limit;
 
-	
-	float cooling_rate_per_sec = get_cooling_rate_by_level(current_level);// 根据等级获取冷却速率
-	float balance_frequency = cooling_rate_per_sec / 10.0f;//计算出来的临界弹频
+	float cooling_rate_per_sec = get_cooling_rate_by_level(current_level); // 根据等级获取冷却速率
+	float balance_frequency = cooling_rate_per_sec / 10.0f;				   // 计算出来的临界弹频
 
 	// 安全系数
 	float safety_factor = 1.0f;
@@ -783,7 +733,7 @@ fp32 Gimbal_Ctrl::HeatManageMent_Adaptive()
 			is_HighShootFrequency = false;
 			return 3.2;
 		}
-		
+
 		return 20.0f;
 	}
 	else
@@ -795,7 +745,7 @@ fp32 Gimbal_Ctrl::HeatManageMent_Adaptive()
 			is_HighShootFrequency = true;
 			return 20.0f;
 		}
-	
+
 		return 3.2;
 	}
 }
