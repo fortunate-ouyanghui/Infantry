@@ -114,7 +114,7 @@
 #define GIMBAL_PITCH_MAX_ANGLE 24.0f
 #define GIMBAL_PITCH_MIN_ANGLE -19.0f
 
-/***************************姿态数据选择陀螺仪还是电机数据***********************/
+/***************************姿态数据:选择陀螺仪还是电机数据***********************/
 #define  MCU_Gyro  //Motor_Gyro   MCU_Gyro
 /***************************姿态数据选择陀螺仪还是电机数据***********************/
 
@@ -372,37 +372,37 @@
 
 
 /*********************************************能量机关PID*******************************************/
-#define YAW_ENERGY_POSITION_PID_KP 		    12.0f
+#define YAW_ENERGY_POSITION_PID_KP 		    0.0f
 #define YAW_ENERGY_POSITION_PID_KI 			0.0f
-#define YAW_ENERGY_POSITION_PID_KD 			1.0f
+#define YAW_ENERGY_POSITION_PID_KD 			0.0f
 #define YAW_ENERGY_POSITION_PID_MAX_OUT 	30000.0f
-#define YAW_ENERGY_POSITION_PID_MAX_IOUT 	5000.0f
-#define YAW_ENERGY_POSITION_PID_BAND_I 		3000.0f
+#define YAW_ENERGY_POSITION_PID_MAX_IOUT 	20.0f
+#define YAW_ENERGY_POSITION_PID_BAND_I 		0.8f
 
-#define YAW_ENERGY_SPEED_PID_KP 			1.0f
-#define YAW_ENERGY_SPEED_PID_KI 			0.3f
+#define YAW_ENERGY_SPEED_PID_KP 			0.0f
+#define YAW_ENERGY_SPEED_PID_KI 			0.0f
 #define YAW_ENERGY_SPEED_PID_KD 			0.0f
-#define YAW_ENERGY_SPEED_PID_MAX_OUT 		30000.0f
-#define YAW_ENERGY_SPEED_PID_MAX_IOUT 		10000.0f
-#define YAW_ENERGY_SPEED_PID_BAND_I 		3000.0f
+#define YAW_ENERGY_SPEED_PID_MAX_OUT 		25000.0f
+#define YAW_ENERGY_SPEED_PID_MAX_IOUT 		800.0f
+#define YAW_ENERGY_SPEED_PID_BAND_I 		1.0f
 
 
 
 
 
-#define PITCH_ENERGY_POSITION_PID_KP 		35.0f
+#define PITCH_ENERGY_POSITION_PID_KP 		0.0f
 #define PITCH_ENERGY_POSITION_PID_KI 		0.0f
-#define PITCH_ENERGY_POSITION_PID_KD 		5.0f
-#define PITCH_ENERGY_POSITION_PID_MAX_OUT 	30000.0f
-#define PITCH_ENERGY_POSITION_PID_MAX_IOUT 	5000.0f
-#define PITCH_ENERGY_POSITION_PID_BAND_I 	3000.0f
+#define PITCH_ENERGY_POSITION_PID_KD 		0.0f
+#define PITCH_ENERGY_POSITION_PID_MAX_OUT 	7.0f
+#define PITCH_ENERGY_POSITION_PID_MAX_IOUT 	3.0f
+#define PITCH_ENERGY_POSITION_PID_BAND_I 	0.4f
 
-#define PITCH_ENERGY_SPEED_PID_KP 			5.0f
-#define PITCH_ENERGY_SPEED_PID_KI 			0.02f
+#define PITCH_ENERGY_SPEED_PID_KP 			0.0f
+#define PITCH_ENERGY_SPEED_PID_KI 			0.0f
 #define PITCH_ENERGY_SPEED_PID_KD 			0.0f
-#define PITCH_ENERGY_SPEED_PID_MAX_OUT 		30000.0f
-#define PITCH_ENERGY_SPEED_PID_MAX_IOUT 	5000.0f
-#define PITCH_ENERGY_SPEED_PID_BAND_I 		3000.0f
+#define PITCH_ENERGY_SPEED_PID_MAX_OUT 		7.0f
+#define PITCH_ENERGY_SPEED_PID_MAX_IOUT 	0.3f
+#define PITCH_ENERGY_SPEED_PID_BAND_I 		1.0f
 /*********************************************能量机关PID*******************************************/
 
 

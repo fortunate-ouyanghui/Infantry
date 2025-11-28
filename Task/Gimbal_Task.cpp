@@ -131,6 +131,8 @@ void Gimbal_Ctrl::Gimbal_Init(void)
 	Feedback_Update();
 }
 
+
+
 // 数据更新
 void Gimbal_Ctrl::Feedback_Update(void)
 {
@@ -147,22 +149,27 @@ void Gimbal_Ctrl::Feedback_Update(void)
 
 	G_compensation_out = Kmg * cos(Gimbal.DM_Pitch.angle * PI / 180.f); // 弧度 重力补偿
 
-#ifdef Motor_Gyro
-	DM_Pitch.angle = PITCH_MOTOR_REVERSE * motor_relative_ECD_to_angle(Pitch.gimbal_motor_measure->ecd, Data.pitch_offset_ecd);
-	DM_Pitch.speed = PITCH_MOTOR_REVERSE * Pitch.gimbal_motor_measure->speed_rpm * 6 * 0.1;
-	Yaw.speed =
-		Yaw.angle =
-// 记得处理达妙弧度转ecd
-//  DM_Pitch.angle_RAD=Message .Dm_Pitch .Motor_pos;
-//	DM_Yaw.angle = DM_Pitch.angle=Message.Gyro.Pitch
-#endif
-#ifdef MCU_Gyro
-			Yaw.speed = Message.Gyro.Yaw_speed; // 速度
-	Yaw.angle = Message.Gyro.Yaw_angle;			// 度
+	
+  #ifdef Motor_Gyro
+	motor_yaw_data.yaw_new_angle=motor_relative_ECD_to_angle(Yaw.gimbal_motor_measure->ecd,0);
+	if( (motor_yaw_data.yaw_new_angle-motor_yaw_data.yaw_last_real_angle) >180  ) motor_yaw_data.yaw_circle--;
+	if( (motor_yaw_data.yaw_new_angle-motor_yaw_data.yaw_last_real_angle) <-180 )	motor_yaw_data.yaw_circle++;
+	motor_yaw_data.yaw_last_real_angle=motor_yaw_data.yaw_new_angle;
+	motor_yaw_data.yaw_angle=motor_yaw_data.yaw_new_angle+360*motor_yaw_data.yaw_circle;
+	
+	Yaw.angle = motor_yaw_data.yaw_angle;
+	Yaw.speed = Yaw.gimbal_motor_measure->speed_rpm;
+	
+	DM_Pitch.angle = DM_Pitch.gimbal_motor_measure->POS.fdata*180/PI;
+	DM_Pitch.speed = DM_Pitch.gimbal_motor_measure->VEl.fdata;
+	#endif
+	#ifdef MCU_Gyro
+	Yaw.speed = Message.Gyro.Yaw_speed; // 速度
+	Yaw.angle = Message.Gyro.Yaw_angle;	// 度
 
 	DM_Pitch.angle = -Message.Gyro.Pitch_angle;
 	DM_Pitch.speed = -Message.Gyro.Pitch_speed;
-#endif
+  #endif
 
 	Trigger.speed = Trigger.gimbal_motor_measure->speed_rpm;
 	Fric1.speed = Fric1.gimbal_motor_measure->speed_rpm;
@@ -543,7 +550,6 @@ void Gimbal_Ctrl::Control_loop(void)
 		PID.Calc(&DM_Pitch.Visual_SpeedPid, DM_Pitch.speed, DM_Pitch.Visual_PositinPid.out);
 
 		
-		
 		YAW_out = Yaw.FollowSpeedPid.out+feedforward;
 		PITCH_out = DM_Pitch.Visual_SpeedPid.out + G_compensation_out;
 	}
@@ -556,7 +562,7 @@ void Gimbal_Ctrl::Control_loop(void)
 		PID.Calc(&DM_Pitch.EnergySpeedPid, DM_Pitch.speed, DM_Pitch.EnergyPositinPid.out);
 
 		YAW_out = Yaw.EnergySpeedPid.out;
-		PITCH_out = DM_Pitch.EnergySpeedPid.out - Kmg * cos(Gimbal.DM_Pitch.angle * PI / 180.f); // why
+		PITCH_out = DM_Pitch.EnergySpeedPid.out + G_compensation_out; // why
 	}
 	else if (Mode == GIMBAL_NAV)
 	{

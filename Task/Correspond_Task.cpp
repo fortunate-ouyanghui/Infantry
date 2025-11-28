@@ -34,6 +34,7 @@ void Correspond_Task(void *argument)
 		set_bo[2]=Message.visual_receive_new_data.yaw.F;//Gimbal.Yaw.angle_set;
 		set_bo[3]=filter_aim_yaw_target;//Gimbal.DM_Pitch.angle;
 		set_bo[4]=yaw_kalman_data;//Gimbal.DM_Pitch.angle_set;
+		
 //		set_bo[5]=Message.SuperCapR.power;
 //		set_bo[6]=Message.SuperCapR.power_all;
 //		set_bo[7]=Message.robo->game_robot_state.chassis_power_limit;

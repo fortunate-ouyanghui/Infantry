@@ -630,14 +630,14 @@
               <FilePath>..\Task\Chassis_Task.cpp</FilePath>
             </File>
             <File>
-              <FileName>Correspond_Task.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Task\Correspond_Task.cpp</FilePath>
-            </File>
-            <File>
               <FileName>Gimbal_Task.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Task\Gimbal_Task.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Correspond_Task.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Task\Correspond_Task.cpp</FilePath>
             </File>
             <File>
               <FileName>Guard_Task.cpp</FileName>

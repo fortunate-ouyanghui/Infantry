@@ -190,6 +190,16 @@
           <WinNumber>1</WinNumber>
           <ItemText>DWT_dt_cor</ItemText>
         </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>mycrc,0x10</ItemText>
+        </Ww>
+        <Ww>
+          <count>8</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>\\HAL_Robot\../Task/Message_Task.cpp\Message.visual_receive_new_data.crc1</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
@@ -847,8 +857,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Task\Correspond_Task.cpp</PathWithFileName>
-      <FilenameWithoutPath>Correspond_Task.cpp</FilenameWithoutPath>
+      <PathWithFileName>..\Task\Gimbal_Task.cpp</PathWithFileName>
+      <FilenameWithoutPath>Gimbal_Task.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -859,8 +869,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Task\Gimbal_Task.cpp</PathWithFileName>
-      <FilenameWithoutPath>Gimbal_Task.cpp</FilenameWithoutPath>
+      <PathWithFileName>..\Task\Correspond_Task.cpp</PathWithFileName>
+      <FilenameWithoutPath>Correspond_Task.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

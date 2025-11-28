@@ -439,6 +439,7 @@ void Message_Ctrl::CAN3_Process(CanRxMsg *Rx_Message)
 	}
 }
 
+
 void Message_Ctrl::NAV_Serial_Hook(uint8_t *Rx_Message)
 {
 	uint8_t len = Rx_Message[0];

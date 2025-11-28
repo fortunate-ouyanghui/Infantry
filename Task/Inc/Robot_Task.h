@@ -257,6 +257,16 @@ typedef enum
 	ROLLBACK // 退弹状态
 } RollbackState;
 
+
+typedef struct Motor_Yaw_Date
+{
+	Motor_Yaw_Date():yaw_circle(0){}
+	float yaw_new_angle;
+	float yaw_last_real_angle;
+	float yaw_angle;
+	uint8_t yaw_circle;
+}Motor_Yaw_Date;
+
 /*****************自定义数据*******************/
 
 class Gimbal_Ctrl : public Statistic, public ValidData
@@ -295,6 +305,7 @@ public:
 	fp32 get_cooling_rate_by_level(int current_level);
 	//视觉数据卡尔曼滤波
 	VisualKalman_t yaw_kalman;
+	Motor_Yaw_Date motor_yaw_data;
 	/*************自定义对象*******************/
 
 	Gimbal_Data_t Data;
