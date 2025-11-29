@@ -526,51 +526,51 @@ void Message_Ctrl::Visual_Serial_Hook(uint8_t *Rx_Message)
     }
 	
 	
-	visual_receive_new_data.len                   = Rx_Message[0];
-    if(visual_receive_new_data.len==13)
-    {
-        if(Verify_CRC16_Check_Sum(Rx_Message+1,13))
-        {
-            visual_receive_new_data.head1         = Rx_Message[1];
-            visual_receive_new_data.head2         = Rx_Message[2];
+//	visual_receive_new_data.len                   = Rx_Message[0];
+//    if(visual_receive_new_data.len==13)
+//    {
+//        if(Verify_CRC16_Check_Sum(Rx_Message+1,13))
+//        {
+//            visual_receive_new_data.head1         = Rx_Message[1];
+//            visual_receive_new_data.head2         = Rx_Message[2];
 
 
-            visual_receive_new_data.mode          = Rx_Message[3];
+//            visual_receive_new_data.mode          = Rx_Message[3];
 
-            visual_receive_new_data.yaw.I[0]      = Rx_Message[4];
-            visual_receive_new_data.yaw.I[1]      = Rx_Message[5];
-            visual_receive_new_data.yaw.I[2]      = Rx_Message[6];
-            visual_receive_new_data.yaw.I[3]      = Rx_Message[7];
+//            visual_receive_new_data.yaw.I[0]      = Rx_Message[4];
+//            visual_receive_new_data.yaw.I[1]      = Rx_Message[5];
+//            visual_receive_new_data.yaw.I[2]      = Rx_Message[6];
+//            visual_receive_new_data.yaw.I[3]      = Rx_Message[7];
 
-            visual_receive_new_data.pitch.I[0]    = Rx_Message[8];
-            visual_receive_new_data.pitch.I[1]    = Rx_Message[9];
-            visual_receive_new_data.pitch.I[2]    = Rx_Message[10];
-            visual_receive_new_data.pitch.I[3]    = Rx_Message[11];
+//            visual_receive_new_data.pitch.I[0]    = Rx_Message[8];
+//            visual_receive_new_data.pitch.I[1]    = Rx_Message[9];
+//            visual_receive_new_data.pitch.I[2]    = Rx_Message[10];
+//            visual_receive_new_data.pitch.I[3]    = Rx_Message[11];
 
-            visual_receive_new_data.crc16         = (Rx_Message[12]<<8) | Rx_Message[13];
+//            visual_receive_new_data.crc16         = (Rx_Message[12]<<8) | Rx_Message[13];
 
-            if(visual_receive_new_data.mode==0)
-            {
-                Gimbal.Flags.Recognized_target=false;
-				Gimbal.Flags.Fire=false;
-            }
-            else if(visual_receive_new_data.mode==1)
-            {
-                Gimbal.Flags.Recognized_target = true;
-				Gimbal.Flags.Fire=false;
-            }
-			else if(visual_receive_new_data.mode==2)
-			{
-				Gimbal.Flags.Recognized_target = true;
-				Gimbal.Flags.Fire=true;
-			}
-            else
-            {
-                Gimbal.Flags.Recognized_target = false;
-				Gimbal.Flags.Fire=false;
-            }
-        }
-    }
+//            if(visual_receive_new_data.mode==0)
+//            {
+//                Gimbal.Flags.Recognized_target=false;
+//				Gimbal.Flags.Fire=false;
+//            }
+//            else if(visual_receive_new_data.mode==1)
+//            {
+//                Gimbal.Flags.Recognized_target = true;
+//				Gimbal.Flags.Fire=false;
+//            }
+//			else if(visual_receive_new_data.mode==2)
+//			{
+//				Gimbal.Flags.Recognized_target = true;
+//				Gimbal.Flags.Fire=true;
+//			}
+//            else
+//            {
+//                Gimbal.Flags.Recognized_target = false;
+//				Gimbal.Flags.Fire=false;
+//            }
+//        }
+//    }
 }
 
 

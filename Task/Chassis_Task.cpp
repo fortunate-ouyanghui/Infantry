@@ -459,7 +459,9 @@ void Chassis_Ctrl::Behaviour_Control(fp32 *vx_set, fp32 *vy_set, fp32 *angle_set
 	}
 	else if (Mode == CHASSIS_NAV)
 	{
-		
+		*vx_set=Message.NAV.linear_x;
+		*vy_set=Message.NAV.linear_y;
+		*angle_set=Message.NAV.angular_z;
 	}
 
 	if ((ABS(*vx_set) >= Velocity.Speed_Set || ABS(*vy_set) >= Velocity.Speed_Set) && ABS(*angle_set) >= 0.5f)
