@@ -18,7 +18,7 @@
 
 //发送 格式 Serialx_Ctrl （x用3，6，7，8代替），串口不能重复！
 //SerialDatax 用于判断外设是否在线
-#define VISUAL_SERIAL      Serial8_Ctrl
+#define VISUAL_SERIAL        Serial8_Ctrl
 //#define VisualData         SerialData1
 #define VISUAL_SERIAL_BAUD 115200
 
@@ -28,10 +28,10 @@
 #define JUDGERX_BUF_NUM   255u
 #define JUDGETX_BUF_NUM   255u
 
-#define NAV_SERIAL 							Serial8_Ctrl
+#define NAV_SERIAL 							Serial1_Ctrl
 #define NAV_SERIAL_BAUD					115200
 #define NAV_BUF_NUM      				40
-#define NAV_SERIAL_Data_Lenth1	13
+#define NAV_SERIAL_Data_Lenth1	16
 #define NAV_SERIAL_Data_Lenth2 	10
 #define NAV_SERIAL_Data_Lenth3 	10
 
@@ -96,8 +96,8 @@
 
 #define Serial8_Data_Header 0x4D
 #define Serial8_Data_Tail 	NULL
-#define Serial8_Data_Lenth0 13
-#define Serial8_Data_Lenth1 10
+#define Serial8_Data_Lenth0 16//13
+#define Serial8_Data_Lenth1 13
 #define Serial8_Data_Lenth2 10
 #define Serial8_Data_Lenth3 NULL
 #define Serial8_Buffer_Size 32

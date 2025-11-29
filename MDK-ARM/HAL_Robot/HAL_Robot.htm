@@ -3,7 +3,7 @@
 <title>Static Call Graph - [HAL_Robot\HAL_Robot.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image HAL_Robot\HAL_Robot.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Nov 28 11:35:17 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Sat Nov 29 11:51:07 2025
 <BR><P>
 <H3>Maximum Stack Usage =        288 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -2762,6 +2762,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;referee_data_solve(unsigned char*)
 <LI><a href="#[22b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Message_Ctrl::Visual_Serial_Hook(unsigned char*)
+<LI><a href="#[22c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Message_Ctrl::NAV_Serial_Hook(unsigned char*)
 </UL>
 
 <P><STRONG><a name="[129]"></a>rc_key_v_fresh_Chassis(RC_ctrl_t*)</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, chassis_task.o(i._Z22rc_key_v_fresh_ChassisP9RC_ctrl_t))
@@ -3064,7 +3065,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Serial_Ctrl::Hook(USART_TypeDef*, bool)
 </UL>
 
-<P><STRONG><a name="[210]"></a>Serial_Ctrl::Serial_Ctrl()</STRONG> (Thumb, 172 bytes, Stack size 32 bytes, app_serial.o(i._ZN11Serial_CtrlC1Ev))
+<P><STRONG><a name="[210]"></a>Serial_Ctrl::Serial_Ctrl()</STRONG> (Thumb, 174 bytes, Stack size 32 bytes, app_serial.o(i._ZN11Serial_CtrlC1Ev))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = Serial_Ctrl::Serial_Ctrl() &rArr; Serial_Data_t::Serial_Data_t(unsigned char, unsigned char, unsigned char, unsigned char, unsigned char, unsigned char, unsigned char, unsigned char) &rArr; operator new[] (unsigned) &rArr; operator new(unsigned) &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
 </UL>
 <BR>[Calls]<UL><LI><a href="#[211]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Serial_Data_t::Serial_Data_t(unsigned char, unsigned char, unsigned char, unsigned char, unsigned char, unsigned char, unsigned char, unsigned char)
@@ -3245,13 +3246,15 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Serial_Rx_Task
 </UL>
 
-<P><STRONG><a name="[22c]"></a>Message_Ctrl::NAV_Serial_Hook(unsigned char*)</STRONG> (Thumb, 424 bytes, Stack size 8 bytes, message_task.o(i._ZN12Message_Ctrl15NAV_Serial_HookEPh))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Message_Ctrl::NAV_Serial_Hook(unsigned char*)
+<P><STRONG><a name="[22c]"></a>Message_Ctrl::NAV_Serial_Hook(unsigned char*)</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, message_task.o(i._ZN12Message_Ctrl15NAV_Serial_HookEPh))
+<BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = Message_Ctrl::NAV_Serial_Hook(unsigned char*) &rArr; Verify_CRC16_Check_Sum(unsigned char*, unsigned) &rArr; Get_CRC16_Check_Sum(unsigned char*, unsigned, unsigned short)
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Verify_CRC16_Check_Sum(unsigned char*, unsigned)
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Message_Ctrl::Serialx_Hook(unsigned char*, Serialctrl*)
 </UL>
 
-<P><STRONG><a name="[22b]"></a>Message_Ctrl::Visual_Serial_Hook(unsigned char*)</STRONG> (Thumb, 190 bytes, Stack size 16 bytes, message_task.o(i._ZN12Message_Ctrl18Visual_Serial_HookEPh))
+<P><STRONG><a name="[22b]"></a>Message_Ctrl::Visual_Serial_Hook(unsigned char*)</STRONG> (Thumb, 238 bytes, Stack size 16 bytes, message_task.o(i._ZN12Message_Ctrl18Visual_Serial_HookEPh))
 <BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = Message_Ctrl::Visual_Serial_Hook(unsigned char*) &rArr; Verify_CRC16_Check_Sum(unsigned char*, unsigned) &rArr; Get_CRC16_Check_Sum(unsigned char*, unsigned, unsigned short)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Verify_CRC16_Check_Sum(unsigned char*, unsigned)

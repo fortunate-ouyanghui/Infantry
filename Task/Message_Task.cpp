@@ -440,7 +440,23 @@ void Message_Ctrl::CAN3_Process(CanRxMsg *Rx_Message)
 
 void Message_Ctrl::NAV_Serial_Hook(uint8_t *Rx_Message)
 {
-	uint8_t len = Rx_Message[0];
+	if(Verify_CRC16_Check_Sum(Rx_Message+1, 16))
+    {
+        // 检查数据头
+        if(Rx_Message[1] == 'M' && Rx_Message[2] == 'A')
+        {
+            // 解析float数据 - 使用memcpy避免字节对齐问题
+            memcpy(&NAV.linear_x, &Rx_Message[3], 4);    // 3-6: line_vel_x
+            memcpy(&NAV.linear_y, &Rx_Message[7], 4);    // 7-10: line_vel_y  
+            memcpy(&NAV.angular_z, &Rx_Message[11], 4);  // 11-14: angle_vel_z
+            
+            // 解析CRC16校验和（如果需要保存的话）
+            NAV.checksum = (Rx_Message[15] << 8) | Rx_Message[16];
+        }
+    }
+	
+	
+	/*
 	if (Rx_Message[1] != 0xAA)
 		return;
 	else
@@ -487,12 +503,29 @@ void Message_Ctrl::NAV_Serial_Hook(uint8_t *Rx_Message)
 		Gyro.Pitch_angle = MPU_DataXY.AngleY.int_16 * FP32_MPU_RAD; // pitch
 		Gyro.Pitch_speed = MPU_DataXY.Speed_Y.int_16 * BMI088_GYRO_2000_SEN;
 	}
+	*/
 }
 
 
 //视觉接收函数
 void Message_Ctrl::Visual_Serial_Hook(uint8_t *Rx_Message)
 {
+	if(Verify_CRC16_Check_Sum(Rx_Message+1, 16))
+    {
+        // 检查数据头
+        if(Rx_Message[1] == 'M' && Rx_Message[2] == 'A')
+        {
+            // 解析float数据 - 使用memcpy避免字节对齐问题
+            memcpy(&NAV.linear_x, &Rx_Message[3], 4);    // 3-6: line_vel_x
+            memcpy(&NAV.linear_y, &Rx_Message[7], 4);    // 7-10: line_vel_y  
+            memcpy(&NAV.angular_z, &Rx_Message[11], 4);  // 11-14: angle_vel_z
+            
+            // 解析CRC16校验和（如果需要保存的话）
+            NAV.checksum = (Rx_Message[15] << 8) | Rx_Message[16];
+        }
+    }
+	
+	
 	visual_receive_new_data.len                   = Rx_Message[0];
     if(visual_receive_new_data.len==13)
     {
