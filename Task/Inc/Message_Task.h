@@ -339,6 +339,8 @@ public:
 	DM_Motor_measure_t Gimbal_pitch;
 	/***********************自定义对象************************/
 	Visual_Receive_New_Data_t visual_receive_new_data;
+	uint32_t Messege_DWT_Count;
+	float Messege_DWT_dt;
 	/***********************自定义对象************************/
 
 	const judge_type_t *robo;

@@ -794,11 +794,6 @@
               <FileType>8</FileType>
               <FilePath>..\Algorithm\chassis_power_control.cpp</FilePath>
             </File>
-            <File>
-              <FileName>my_kalman.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Algorithm\my_kalman.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>

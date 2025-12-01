@@ -71,7 +71,6 @@
 "hal_robot\algorithm_pid.o"
 "hal_robot\algorithm_user_lib.o"
 "hal_robot\chassis_power_control.o"
-"hal_robot\my_kalman.o"
 "..\Middlewares\DSP\arm_cortexM4lf_math.lib"
 --strict --scatter "HAL_Robot\HAL_Robot.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols

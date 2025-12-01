@@ -79,7 +79,6 @@ hal_robot\uidraw_task.o: ../Algorithm/Inc/algorithm_user_lib.h
 hal_robot\uidraw_task.o: ../Algorithm/Inc/chassis_power_control.h
 hal_robot\uidraw_task.o: ../Middlewares/DSP/Include/arm_math.h
 hal_robot\uidraw_task.o: ../Drivers/CMSIS/Include/core_cm7.h
-hal_robot\uidraw_task.o: ../Algorithm/Inc/my_kalman.h
 hal_robot\uidraw_task.o: ../Core/Inc/tim.h
 hal_robot\uidraw_task.o: ../Algorithm/Inc/algorithm_matrix.hpp
 hal_robot\uidraw_task.o: E:\keil5\ARM\ARMCC\Bin\..\include\cassert

@@ -6,11 +6,9 @@
 Chassis_Ctrl Chassis;
 extern bool UI_Send;
 
-// extern Message_Ctrl Message;
 
-uint16_t robot_Last_HP = 400;
 float TOP_dir = 1;
-int16_t TT, TT1, TT2, TT3;
+
 
 void Chassis_Task(void *argument)
 {
@@ -19,8 +17,8 @@ void Chassis_Task(void *argument)
 	/* Infinite loop */
 	for (;;)
 	{
-		Chassis.Behaviour_Mode();//遥控器模式
-		Chassis.Feedback_Update();//pid实际值
+		Chassis.Behaviour_Mode();
+		Chassis.Feedback_Update();
 		if (Chassis.Mode == CHASSIS_NO_MOVE)
 		{
 			CAN_Cmd.SendData(&CAN_Cmd.Chassis, 0, 0, 0, 0);
@@ -46,6 +44,7 @@ void Chassis_Task(void *argument)
 	}
 	/* USER CODE END StartDefaultTask */
 }
+
 
 // 底盘初始化
 void Chassis_Ctrl::Chassis_Init(void)
@@ -111,8 +110,9 @@ void Chassis_Ctrl::Feedback_Update(void)
 	Velocity.Gear = Message.robo->game_robot_state.robot_level;
 	Power_Ctrl.Power_Feedback_Update(); // 功率模型更新函数
 
-	chassis_relative_ECD = -motor_ecd_to_relative_ecd(Gimbal.Yaw.gimbal_motor_measure->ecd, Gimbal_Motor_Yaw_Offset_ECD); //
+	chassis_relative_ECD = -motor_ecd_to_relative_ecd(Gimbal.Yaw.gimbal_motor_measure->ecd, Gimbal_Motor_Yaw_Offset_ECD); 
 	chassis_relative_RAD = chassis_relative_ECD * ECD_TO_PI;															  // 转化为弧度
+	
 	#ifdef useOmni
 	float sin_yaw = arm_sin_f32(-chassis_relative_RAD);
 	float cos_yaw = arm_cos_f32(-chassis_relative_RAD);
@@ -143,6 +143,7 @@ void Chassis_Ctrl::Feedback_Update(void)
 	}
 	#endif
 }
+
 
 // 底盘行为状态设置
 void Chassis_Ctrl::Behaviour_Mode(void)
@@ -211,16 +212,12 @@ void Chassis_Ctrl::Behaviour_Mode(void)
 	// 遥控控制模式
 	if(Flags.RC_Flag==true)
 	{
-		if (switch_is_down(RC_Ptr->rc.s[CHANNEL_RIGHT]))
-		{
-			Mode = CHASSIS_NO_MOVE;
-		}
-		#if RC_CONTRAL_MODE == 0
 		if (switch_is_down(RC_Ptr->rc.s[CHANNEL_LEFT]) && switch_is_down(RC_Ptr->rc.s[CHANNEL_RIGHT]))
 		{
 			//下 下
 			Mode = CHASSIS_NO_MOVE;
 		}
+		#if RC_CONTRAL_MODE == 0
 		else if (switch_is_down(RC_Ptr->rc.s[CHANNEL_LEFT]) && switch_is_mid(RC_Ptr->rc.s[CHANNEL_RIGHT]))
 		{
 			//下 中
@@ -279,6 +276,7 @@ void Chassis_Ctrl::Behaviour_Mode(void)
 	}
 	Flag_Behaviour_Control();
 }
+
 
 void Chassis_Ctrl::Flag_Behaviour_Control()
 {
@@ -471,6 +469,7 @@ void Chassis_Ctrl::Behaviour_Control(fp32 *vx_set, fp32 *vy_set, fp32 *angle_set
 	}
 }
 
+
 // 控制
 void Chassis_Ctrl::Control(void)
 {
@@ -511,7 +510,6 @@ void Chassis_Ctrl::Control(void)
 	}
 	else if (Mode == CHASSIS_LITTLE_TOP)
 	{
-
 		// 旋转控制底盘速度方向，保证前进方向是云台方向，有利于运动平稳
 		sin_yaw = arm_sin_f32(-chassis_relative_RAD);
 		cos_yaw = arm_cos_f32(-chassis_relative_RAD);
@@ -551,23 +549,10 @@ void Chassis_Ctrl::Vector_to_Wheel_Speed(fp32 *vx_set, fp32 *vy_set, fp32 *wz_se
 	fp32 wz_temp = *wz_set;
 
 	#ifdef useOmni
-	//	Motor[0].speed_set =  8.9507f*vx_temp + 8.9507f*vy_temp - 3.9025f * wz_temp;
-	//	Motor[1].speed_set = -8.9507f*vx_temp + 8.9507f*vy_temp - 3.9025f * wz_temp;
-	//	Motor[2].speed_set = -8.9507f*vx_temp - 8.9507f*vy_temp - 3.9025f * wz_temp;
-	//	Motor[3].speed_set =  8.9507f*vx_temp - 8.9507f*vy_temp - 3.9025f * wz_temp;
-
 	 Motor[0].speed_set = vx_temp - vy_temp - MOTOR_DISTANCE_TO_CENTER * wz_temp;
 	 Motor[1].speed_set = -vx_temp - vy_temp - MOTOR_DISTANCE_TO_CENTER * wz_temp;
 	 Motor[2].speed_set = -vx_temp + vy_temp - MOTOR_DISTANCE_TO_CENTER * wz_temp;
 	 Motor[3].speed_set = vx_temp + vy_temp - MOTOR_DISTANCE_TO_CENTER * wz_temp;
-
-	//自己写的速度解算
-//	Motor[0].speed_set=(vx_temp/cos(0.7854)-vy_temp/cos(0.7854)-wz_temp*MOTOR_DISTANCE_TO_CENTER)*0.85;
-//	Motor[1].speed_set=(-vx_temp/cos(0.7854)-vy_temp/cos(0.7854)-wz_temp*MOTOR_DISTANCE_TO_CENTER)*0.85;
-//	Motor[2].speed_set=(-vx_temp/cos(0.7854)+vy_temp/cos(0.7854)-wz_temp*MOTOR_DISTANCE_TO_CENTER)*0.85;
-//	Motor[3].speed_set=(vx_temp/cos(0.7854)+vy_temp/cos(0.7854)-wz_temp*MOTOR_DISTANCE_TO_CENTER)*0.85;
-
-
 	#endif
 	#ifdef useMecanum
 	// 旋转的时候， 由于云台靠前，所以是前面两轮 0 ，1 旋转的速度变慢， 后面两轮 2,3 旋转的速度变快
@@ -575,7 +560,6 @@ void Chassis_Ctrl::Vector_to_Wheel_Speed(fp32 *vx_set, fp32 *vy_set, fp32 *wz_se
 	Motor[1].speed_set = -vx_temp - vy_temp - MOTOR_DISTANCE_TO_CENTER * wz_temp;
 	Motor[2].speed_set = vx_temp + vy_temp - MOTOR_DISTANCE_TO_CENTER * wz_temp;
 	Motor[3].speed_set = -vx_temp + vy_temp - MOTOR_DISTANCE_TO_CENTER * wz_temp;
-
 	#endif
 	#ifdef useSteering
 	uint8_t i = 0;
@@ -605,6 +589,7 @@ void Chassis_Ctrl::Vector_to_Wheel_Speed(fp32 *vx_set, fp32 *vy_set, fp32 *wz_se
 	}
 	#endif
 }
+
 
 // 底盘控制计算
 void Chassis_Ctrl::Control_loop(void)
@@ -670,7 +655,6 @@ void Chassis_Ctrl::Control_loop(void)
 	//	Motor[1].give_current = (int16_t)Speed_Pid[1].out;
 	//	Motor[2].give_current = (int16_t)Speed_Pid[2].out;
 	//	Motor[3].give_current = (int16_t)Speed_Pid[3].out;
-
 	#endif
 	#ifdef useSteering
 	// 舵轮运动分解
@@ -708,6 +692,7 @@ void Chassis_Ctrl::Control_loop(void)
 	}
 	#endif
 }
+
 
 // 规整ECD(范围±4096)
 fp32 motor_ecd_to_relative_ecd(fp32 angle, fp32 offset_ecd)

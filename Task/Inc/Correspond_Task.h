@@ -36,7 +36,7 @@ union I
   uint16_t d;
 };
 
-#define Correspondence_Task_Control_Time 2
+#define Correspondence_Task_Control_Time 4
 
 #define Gimbal_visual_offset_ecd 7360
 
@@ -214,6 +214,8 @@ public:
 
   /********自定义对象*******/
   Visual_New_Send_Data_t visual_new_send_data;
+	float Corres_DWT_dt;
+	uint32_t Corres_DWT_Count; 
   /********自定义对象*******/
 
   uint16_t last_HP;

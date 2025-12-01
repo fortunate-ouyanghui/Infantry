@@ -20,9 +20,6 @@
 #include "algorithm_user_lib.h"
 #include "chassis_power_control.h"
 
-//自定义
-#include "my_kalman.h"
-
 
 #include "drivers_statistic.h"
 
@@ -146,6 +143,8 @@ typedef struct
 	bool FC_Flag;
 	bool ZM_Flag;
 	bool reset_damiao_pitch;
+	bool Recognized_target;
+	bool fire;
 } Gimbal_Ctrl_Flags_t; // 云台控制标志位
 
 typedef enum
@@ -229,8 +228,8 @@ typedef struct
 	sPidTypeDef PositinPid;
 
 	//自瞄PID
-	sPidTypeDef Visual_SpeedPid;
-	sPidTypeDef Visual_PositinPid;
+	sPidTypeDef FollowSpeedPid;
+	sPidTypeDef FollowPositinPid;
 
 	//能量机关PID
 	sPidTypeDef EnergySpeedPid;
@@ -304,7 +303,6 @@ public:
 	fp32 HeatManageMent_Adaptive();
 	fp32 get_cooling_rate_by_level(int current_level);
 	//视觉数据卡尔曼滤波
-	VisualKalman_t yaw_kalman;
 	Motor_Yaw_Date motor_yaw_data;
 	/*************自定义对象*******************/
 
@@ -324,7 +322,6 @@ public:
 
 	float forwardfeed(float in);
 	float forwardfeed_pitch(float in);
-	void process_angle(float visual_angle, float yaw_gyro, float *aim_angle);
 	float normalize_angle_diff(float current, float target);
 	float adjust_target_angle(float current, float target);
 

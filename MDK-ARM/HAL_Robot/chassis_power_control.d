@@ -74,7 +74,6 @@ hal_robot\chassis_power_control.o: ../ModuleDrivers/Inc/drivers_statistic.h
 hal_robot\chassis_power_control.o: E:\keil5\ARM\ARMCC\Bin\..\include\cmath
 hal_robot\chassis_power_control.o: ../Task/Inc/Guard_Task.h
 hal_robot\chassis_power_control.o: ../Algorithm/Inc/algorithm_user_lib.h
-hal_robot\chassis_power_control.o: ../Algorithm/Inc/my_kalman.h
 hal_robot\chassis_power_control.o: ../Core/Inc/tim.h
 hal_robot\chassis_power_control.o: ../Algorithm/Inc/algorithm_matrix.hpp
 hal_robot\chassis_power_control.o: E:\keil5\ARM\ARMCC\Bin\..\include\cassert

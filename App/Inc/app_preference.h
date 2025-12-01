@@ -334,7 +334,7 @@
 
 
 /*********************************************◊‘√ÈPID*******************************************/
-#define YAW_FOLLOW_POSITION_PID_KP			0.27//0.27//0.37//0.27
+#define YAW_FOLLOW_POSITION_PID_KP			0.37//0.27//0.37//0.27
 #define YAW_FOLLOW_POSITION_PID_KI			0.0f
 #define YAW_FOLLOW_POSITION_PID_KD 			0.0f
 #define YAW_FOLLOW_POSITION_PID_MAX_OUT 	30000.0f
@@ -342,7 +342,7 @@
 #define YAW_FOLLOW_POSITION_PID_BAND_I		0.8f
 
 
-#define YAW_FOLLOW_SPEED_PID_KP 			9150//22000//24000//22000
+#define YAW_FOLLOW_SPEED_PID_KP 			22000//9150//22000//24000//22000
 #define YAW_FOLLOW_SPEED_PID_KI 			0.0f
 #define YAW_FOLLOW_SPEED_PID_KD 			0.0f
 #define YAW_FOLLOW_SPEED_PID_MAX_OUT 		25000.0f

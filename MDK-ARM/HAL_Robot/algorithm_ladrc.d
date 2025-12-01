@@ -75,7 +75,6 @@ hal_robot\algorithm_ladrc.o: ../Algorithm/Inc/chassis_power_control.h
 hal_robot\algorithm_ladrc.o: ../Middlewares/DSP/Include/arm_math.h
 hal_robot\algorithm_ladrc.o: ../Drivers/CMSIS/Include/core_cm7.h
 hal_robot\algorithm_ladrc.o: E:\keil5\ARM\ARMCC\Bin\..\include\math.h
-hal_robot\algorithm_ladrc.o: ../Algorithm/Inc/my_kalman.h
 hal_robot\algorithm_ladrc.o: ../Core/Inc/tim.h
 hal_robot\algorithm_ladrc.o: ../Algorithm/Inc/algorithm_matrix.hpp
 hal_robot\algorithm_ladrc.o: E:\keil5\ARM\ARMCC\Bin\..\include\cassert

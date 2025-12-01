@@ -189,8 +189,7 @@ void Message_Ctrl::Serialx_Hook(uint8_t *Rx_Message, Serialctrl *Serialx_Ctrl)
 
 
 
-uint32_t DWT_Count;
-float DWT_dt;
+
 void Message_Ctrl::CAN1_Process(CanRxMsg *Rx_Message)
 {
 	CanRxMsg Rx_Data;
@@ -495,6 +494,7 @@ void Message_Ctrl::NAV_Serial_Hook(uint8_t *Rx_Message)
 //视觉接收函数
 void Message_Ctrl::Visual_Serial_Hook(uint8_t *Rx_Message)
 {
+	
 	  visual_receive_new_data.len          = Rx_Message[0];
     if(visual_receive_new_data.len==13)
     {
@@ -520,19 +520,27 @@ void Message_Ctrl::Visual_Serial_Hook(uint8_t *Rx_Message)
 
             if(visual_receive_new_data.mode==0)
             {
-                Gimbal.Flags.Visual_Flag=false;
+                Gimbal.Flags.Recognized_target=false;
+							  Gimbal.Flags.fire=false;
             }
-            else if(visual_receive_new_data.mode==1 || visual_receive_new_data.mode==2)
+            else if(visual_receive_new_data.mode==1)
             {
-                Gimbal.Flags.Visual_Flag = true;
+                Gimbal.Flags.Recognized_target=true;
+							  Gimbal.Flags.fire=false;
             }
-            else
+            else if(visual_receive_new_data.mode==2)
             {
-                Gimbal.Flags.Visual_Flag = false;
+                Gimbal.Flags.Recognized_target=true;
+							  Gimbal.Flags.fire=true;
             }
+						else
+						{
+								Gimbal.Flags.Recognized_target=false;
+							  Gimbal.Flags.fire=false;
+						}
         }
-					DWT_dt=DWT_GetDeltaT(&DWT_Count);
     }
+		Messege_DWT_dt=DWT_GetDeltaT(&Messege_DWT_Count);
 }
 
 

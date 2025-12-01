@@ -11,16 +11,11 @@
 
 
 extern uint16_t CRC_INIT;
-sentry_cmd_t sentry_cmd_struct;
-union F Gimbal_Union;
+
 /*发送数据*/
-float ch[15];
 float set_bo[15];
 Correspondence_ctrl Corres;
-extern float lll;
-uint16_t X = 10, Y = 0;
 extern float filter_aim_yaw_target;
-extern float yaw_kalman_data;
 
 void Correspond_Task(void *argument)
 {
@@ -29,17 +24,6 @@ void Correspond_Task(void *argument)
 	/* Infinite loop */
 	for (;;)
 	{
-		set_bo[0]=0;
-		set_bo[1]=Message.Gyro.Yaw_real_angle;//Gimbal.Yaw.angle;
-		set_bo[2]=Message.visual_receive_new_data.yaw.F;//Gimbal.Yaw.angle_set;
-		set_bo[3]=filter_aim_yaw_target;//Gimbal.DM_Pitch.angle;
-		set_bo[4]=yaw_kalman_data;//Gimbal.DM_Pitch.angle_set;
-		
-//		set_bo[5]=Message.SuperCapR.power;
-//		set_bo[6]=Message.SuperCapR.power_all;
-//		set_bo[7]=Message.robo->game_robot_state.chassis_power_limit;
-		vofa_justfloat_output(set_bo, 5, &Serial3_Ctrl);
-
 		Corres.Corres_Feedback();
 		Corres.Corres_Send();
 
@@ -54,21 +38,27 @@ void Correspondence_ctrl::Corres_Init(void)
 	WS2812_INIT();
 }
 
-uint32_t DWT_Count_cor;
-float DWT_dt_cor;
 void Correspondence_ctrl::Corres_Send(void)
 {
-	//if (Rate_Do_Execute(5))
-	//{
-		// 10MS一次
+	  vofa_justfloat_output(set_bo, 7, &Serial3_Ctrl);
 		VISUAL_SERIAL.sendData((uint8_t *)&visual_new_send_data, sizeof(visual_new_send_data));
-		DWT_dt_cor=DWT_GetDeltaT(&DWT_Count_cor);
-	//}
+		Corres_DWT_dt=DWT_GetDeltaT(&Corres_DWT_Count);
 	//CAN_Cmd.SendData(&hfdcan2, CAN_CAP_SENT_ID, &SuperCapS, 8);//向超级电容管理模块发送超级电容数据
 }
 
 void Correspondence_ctrl::Corres_Feedback(void)
 {
+	  set_bo[0]=0;
+		set_bo[1]=Message.Gyro.Yaw_real_angle;//Gimbal.Yaw.angle;
+		set_bo[2]=Message.visual_receive_new_data.yaw.F;//Gimbal.Yaw.angle_set;
+		set_bo[3]=filter_aim_yaw_target;//Gimbal.DM_Pitch.angle;
+	
+		set_bo[4]=Gimbal.DM_Pitch.angle;//Gimbal.DM_Pitch.angle_set;
+		set_bo[5]=Gimbal.DM_Pitch.angle_set;
+	
+	  set_bo[6]=Message.robo->shoot_data.initial_speed;
+	
+	
 	  visual_new_send_data.head1=0x4D;
     visual_new_send_data.head2=0x41;
     
@@ -88,28 +78,6 @@ void Correspondence_ctrl::Corres_Feedback(void)
     uint16_t crc= Get_CRC16_Check_Sum((uint8_t *)&visual_new_send_data.head1,17-2,CRC_INIT);
     visual_new_send_data.crc16 = ((crc & 0xFF) << 8) | ((crc >> 8) & 0xFF);
 
-		switch (Message.robo->game_robot_state.robot_id)
-		{
-			case 7: // id:7  红方哨兵
-				visual.mode = 1;
-				visual.robot_HP = Message.robo->game_robot_HP.red_7_robot_HP;
-				visual.outpost_HP = Message.robo->game_robot_HP.blue_outpost_HP;
-				break;
-			case 107: // id:107  蓝方哨兵
-				visual.mode = 0;
-				visual.robot_HP = Message.robo->game_robot_HP.blue_7_robot_HP;
-				visual.outpost_HP = Message.robo->game_robot_HP.red_outpost_HP;
-				break;
-			default:
-				break;
-		}
-
-	if (Rate_Do_Execute(5))
-	{
-		visual.pitch = Gimbal.DM_Pitch.angle;
-		visual.roll = 0;
-		visual.yaw = Message.Gyro.Yaw_real_angle;
-	}
 
 	if (Message.robo->game_robot_state.power_management_chassis_output == 0 || Message.robo->power_heat_data.chassis_power < 1 || Message.robo->game_robot_state.power_management_gimbal_output == 0)
 	{
