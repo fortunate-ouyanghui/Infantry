@@ -237,7 +237,7 @@ void Chassis_Ctrl::Behaviour_Mode(void)
 		else if(switch_is_up(RC_Ptr->rc.s[CHANNEL_LEFT]) && switch_is_mid(RC_Ptr->rc.s[CHANNEL_RIGHT]))
 		{
 			//ÉÏ ÖÐ
-			Mode=CHASSIS_NO_FOLLOW_YAW;
+			Mode=CHASSIS_NAV;//CHASSIS_NO_FOLLOW_YAW;
 		}
 		else if (switch_is_mid(RC_Ptr->rc.s[CHANNEL_LEFT]) && switch_is_mid(RC_Ptr->rc.s[CHANNEL_RIGHT]))
 		{
@@ -457,7 +457,9 @@ void Chassis_Ctrl::Behaviour_Control(fp32 *vx_set, fp32 *vy_set, fp32 *angle_set
 	}
 	else if (Mode == CHASSIS_NAV)
 	{
-		
+		*vx_set=Message.NAV.vx.F;
+		*vy_set=Message.NAV.vy.F;
+		*angle_set=Message.NAV.wz.F;
 	}
 
 	if ((ABS(*vx_set) >= Velocity.Speed_Set || ABS(*vy_set) >= Velocity.Speed_Set) && ABS(*angle_set) >= 0.5f)

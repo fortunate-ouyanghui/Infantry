@@ -94,9 +94,20 @@
 #define Serial7_ITPending   USART_IT_RXNE_AND_IDLE
 #define Serial7_Mode        Serial_NORMAL_Mode
 
+
+
+#define use_NAV        //use_NAV  use_AIM
+
 #define Serial8_Data_Header 0x4D
 #define Serial8_Data_Tail 	NULL
+
+#ifdef use_NAV
+#define Serial8_Data_Lenth0 22//13
+#endif
+#ifdef use_AIM
 #define Serial8_Data_Lenth0 13
+#endif
+
 #define Serial8_Data_Lenth1 10
 #define Serial8_Data_Lenth2 10
 #define Serial8_Data_Lenth3 NULL

@@ -219,12 +219,24 @@ struct Visual_Receive_Data_t
 struct NAV_Receive_Data_t
 {
 
+	/*
 	fp32 linear_x;
 	fp32 linear_y;
 	fp32 angular_z;
 	uint8_t Top_state;
 	uint8_t Follow_Gimbal_state;
 	uint16_t checksum;
+	*/
+	
+	uint8_t sof;
+	uint8_t len;
+	uint8_t id;
+	uint8_t crc;
+	uint32_t time_stamp;
+	union F vx;
+	union F vy;
+	union F wz;
+	uint16_t crc16;
 };
 
 struct CAN_MPU_Data_R_Z

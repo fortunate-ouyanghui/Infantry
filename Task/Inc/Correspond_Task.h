@@ -36,7 +36,7 @@ union I
   uint16_t d;
 };
 
-#define Correspondence_Task_Control_Time 4
+#define Correspondence_Task_Control_Time 4//2
 
 #define Gimbal_visual_offset_ecd 7360
 
@@ -188,6 +188,41 @@ typedef struct Visual_New_Send_Data_t
 } Visual_New_Send_Data_t;
 #pragma pack(pop)      // 恢复之前的对齐设置
 
+
+#pragma pack(push,1)
+typedef struct NAV_Send_First_Data_t
+{
+	NAV_Send_First_Data_t():sof(0x4D),len(24),id(0x02){}
+	uint8_t sof;
+	uint8_t len;
+	uint8_t id;
+	uint8_t crc;
+	uint32_t time_stamp;
+	float yaw;
+	float pitch;
+	float roll;
+	float yaw_vel;
+	float pitch_vel;
+	float roll_vel;
+	uint16_t crc16;
+}NAV_Send_First_Data_t;
+#pragma pack(pop)
+
+#pragma pack(push,1)
+typedef struct NAV_Send_Second_Data_t
+{
+	NAV_Send_Second_Data_t():sof(0x4D),len(12),id(0x08){}
+	uint8_t sof;
+	uint8_t len;
+	uint8_t id;
+	uint8_t crc;
+	uint32_t time_stamp;
+	float vx;
+	float vy;
+	float wz;
+	uint16_t crc16;
+}NAV_Send_Second_Data_t;
+#pragma pack(pop)
 /**********自定义结构体**********/
 
 class Correspondence_ctrl : public Statistic
@@ -214,8 +249,14 @@ public:
 
   /********自定义对象*******/
   Visual_New_Send_Data_t visual_new_send_data;
+	NAV_Send_First_Data_t nav_send_first_data;
+	NAV_Send_Second_Data_t nav_send_second_data;
 	float Corres_DWT_dt;
 	uint32_t Corres_DWT_Count; 
+	float Stop_TickCount;
+	uint32_t pack_size1;//数据包大小
+	uint32_t pack_size2;
+
   /********自定义对象*******/
 
   uint16_t last_HP;

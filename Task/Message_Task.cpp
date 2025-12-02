@@ -171,7 +171,7 @@ void Message_Ctrl::Serialx_Hook(uint8_t *Rx_Message, Serialctrl *Serialx_Ctrl)
 {
 	if (Serialx_Ctrl == &VISUAL_SERIAL)
 	{
-		Visual_Serial_Hook(Rx_Message);
+		Visual_Serial_Hook(Rx_Message) ;
 	}
 	if (Serialx_Ctrl == &JUDGE_SERIAL)
 	{
@@ -494,7 +494,42 @@ void Message_Ctrl::NAV_Serial_Hook(uint8_t *Rx_Message)
 //视觉接收函数
 void Message_Ctrl::Visual_Serial_Hook(uint8_t *Rx_Message)
 {
+	#ifdef use_NAV
+	if(Rx_Message[0]==22)
+	{
+		if(Verify_CRC16_Check_Sum(Rx_Message+1,22))
+		{
+			NAV.sof=Rx_Message[1];
+			NAV.len=Rx_Message[2];
+			NAV.id=Rx_Message[3];
+			NAV.crc=Rx_Message[4];
+			NAV.time_stamp= (uint32_t)Rx_Message[5] | 
+                          ((uint32_t)Rx_Message[6] << 8) | 
+                          ((uint32_t)Rx_Message[7] << 16) | 
+                          ((uint32_t)Rx_Message[8] << 24);
+			NAV.vx.I[0]=Rx_Message[9];
+			NAV.vx.I[1]=Rx_Message[10];
+			NAV.vx.I[2]=Rx_Message[11];
+			NAV.vx.I[3]=Rx_Message[12];
+			
+			NAV.vy.I[0]=Rx_Message[13];
+			NAV.vy.I[1]=Rx_Message[14];
+			NAV.vy.I[2]=Rx_Message[15];
+			NAV.vy.I[3]=Rx_Message[16];
+
+			NAV.wz.I[0]=Rx_Message[17];
+			NAV.wz.I[1]=Rx_Message[18];
+			NAV.wz.I[2]=Rx_Message[19];
+			NAV.wz.I[3]=Rx_Message[20];
+			
+			NAV.crc16=(Rx_Message[21]<<8) | Rx_Message[22];
+			
+		}
+	}
+	#endif
 	
+	
+	#ifdef use_AIM
 	  visual_receive_new_data.len          = Rx_Message[0];
     if(visual_receive_new_data.len==13)
     {
@@ -540,6 +575,8 @@ void Message_Ctrl::Visual_Serial_Hook(uint8_t *Rx_Message)
 						}
         }
     }
+		#endif
+		
 		Messege_DWT_dt=DWT_GetDeltaT(&Messege_DWT_Count);
 }
 
