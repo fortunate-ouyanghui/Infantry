@@ -42,11 +42,13 @@ void Correspondence_ctrl::Corres_Init(void)
 void Correspondence_ctrl::Corres_Send(void)
 {
 	  //vofa_justfloat_output(set_bo, 7, &Serial3_Ctrl);
-		//VISUAL_SERIAL.sendData((uint8_t *)&visual_new_send_data, sizeof(visual_new_send_data));
+		#ifdef use_AIM
+		VISUAL_SERIAL.sendData((uint8_t *)&visual_new_send_data, sizeof(visual_new_send_data));
+		#endif
+		#ifdef use_NAV
 		VISUAL_SERIAL.sendData((uint8_t *)&nav_send_first_data, sizeof(nav_send_first_data));
-	
 		VISUAL_SERIAL.sendData((uint8_t *)&nav_send_second_data, sizeof(nav_send_second_data));
-
+		#endif
 	
 
 		Corres_DWT_dt=DWT_GetDeltaT(&Corres_DWT_Count);
@@ -56,6 +58,7 @@ void Correspondence_ctrl::Corres_Send(void)
 
 void Correspondence_ctrl::Corres_Feedback(void)
 {
+	#ifdef use_NAV
 	nav_send_first_data.sof=0x4D;
 	nav_send_first_data.len=24;
 	nav_send_first_data.id=0x02;
@@ -85,7 +88,7 @@ void Correspondence_ctrl::Corres_Feedback(void)
 	nav_send_second_data.crc16 = ((crc1 & 0xFF) << 8) | ((crc1 >> 8) & 0xFF);
 	
 	Corres.pack_size2=sizeof(nav_send_second_data);
-	
+	#endif
 	
 //	  set_bo[0]=0;
 //		set_bo[1]=Message.Gyro.Yaw_real_angle;//Gimbal.Yaw.angle;
@@ -96,27 +99,29 @@ void Correspondence_ctrl::Corres_Feedback(void)
 //		set_bo[5]=Gimbal.DM_Pitch.angle_set;
 //	
 //	  set_bo[6]=Message.robo->shoot_data.initial_speed;
-//	
-//	
-//	  visual_new_send_data.head1=0x4D;
-//    visual_new_send_data.head2=0x41;
-//    
-//    visual_new_send_data.mode = 0x01;
-//    
-//    visual_new_send_data.q[0] = Quarternoin[0];
-//    visual_new_send_data.q[1] = Quarternoin[1];
-//    visual_new_send_data.q[2] = Quarternoin[2];
-//    visual_new_send_data.q[3] = Quarternoin[3];
-//    visual_new_send_data.q[4] = Quarternoin[4];
-//    visual_new_send_data.q[5] = Quarternoin[5];
-//    visual_new_send_data.q[6] = Quarternoin[6];
-//    visual_new_send_data.q[7] = Quarternoin[7];
+	
+		
+		#ifdef use_AIM
+	  visual_new_send_data.head1=0x4D;
+    visual_new_send_data.head2=0x41;
+    
+    visual_new_send_data.mode = 0x01;
+    
+    visual_new_send_data.q[0] = Quarternoin[0];
+    visual_new_send_data.q[1] = Quarternoin[1];
+    visual_new_send_data.q[2] = Quarternoin[2];
+    visual_new_send_data.q[3] = Quarternoin[3];
+    visual_new_send_data.q[4] = Quarternoin[4];
+    visual_new_send_data.q[5] = Quarternoin[5];
+    visual_new_send_data.q[6] = Quarternoin[6];
+    visual_new_send_data.q[7] = Quarternoin[7];
 
-//    visual_new_send_data.bullet_speed = Message.robo->shoot_data.initial_speed;
+    visual_new_send_data.bullet_speed = Message.robo->shoot_data.initial_speed;
 
-//    uint16_t crc= Get_CRC16_Check_Sum((uint8_t *)&visual_new_send_data.head1,17-2,CRC_INIT);
-//    visual_new_send_data.crc16 = ((crc & 0xFF) << 8) | ((crc >> 8) & 0xFF);
-
+    uint16_t crc= Get_CRC16_Check_Sum((uint8_t *)&visual_new_send_data.head1,17-2,CRC_INIT);
+    visual_new_send_data.crc16 = ((crc & 0xFF) << 8) | ((crc >> 8) & 0xFF);
+		#endif
+		
 
 	if (Message.robo->game_robot_state.power_management_chassis_output == 0 || Message.robo->power_heat_data.chassis_power < 1 || Message.robo->game_robot_state.power_management_gimbal_output == 0)
 	{
