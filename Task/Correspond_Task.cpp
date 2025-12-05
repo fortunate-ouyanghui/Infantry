@@ -71,7 +71,7 @@ void Correspondence_ctrl::Corres_Feedback(void)
 	nav_send_first_data.pitch_vel=Message.Gyro.Pitch_speed;
 	nav_send_first_data.roll_vel=0;
 	uint16_t crc= Get_CRC16_Check_Sum((uint8_t *)&nav_send_first_data.sof,34-2,CRC_INIT);
-	nav_send_first_data.crc16 =crc;//((crc & 0xFF) << 8) | ((crc >> 8) & 0xFF);
+	nav_send_first_data.crc16 =((crc & 0xFF) << 8) | ((crc >> 8) & 0xFF);
 	
 	Corres.pack_size1=sizeof(nav_send_first_data);
 	
@@ -85,7 +85,7 @@ void Correspondence_ctrl::Corres_Feedback(void)
 	nav_send_second_data.vy=Chassis.Velocity.vy;
 	nav_send_second_data.wz=Chassis.Velocity.wz;
 	uint16_t crc1= Get_CRC16_Check_Sum((uint8_t *)&nav_send_second_data.sof,22-2,CRC_INIT);
-	nav_send_second_data.crc16 = ((crc1 & 0xFF) << 8) | ((crc1 >> 8) & 0xFF);
+	nav_send_second_data.crc16 =((crc1 & 0xFF) << 8) | ((crc1 >> 8) & 0xFF);
 	
 	Corres.pack_size2=sizeof(nav_send_second_data);
 	#endif
